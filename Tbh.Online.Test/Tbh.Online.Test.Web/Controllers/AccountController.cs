@@ -19,7 +19,7 @@ namespace Tbh.Online.Test.Web.Controllers
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
-            if (!string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 return RedirectToAction("Login");
             }
@@ -27,7 +27,7 @@ namespace Tbh.Online.Test.Web.Controllers
             //Check the user name and password  
             //Here can be implemented checking logic from the database  
 
-            if (email == "Admin" && password == "password")
+            if (email == "admin@onlinetest.com" && password == "password")
             {
 
                 //Create the identity for the user  
@@ -39,10 +39,17 @@ namespace Tbh.Online.Test.Web.Controllers
 
                 var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Admin");
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
