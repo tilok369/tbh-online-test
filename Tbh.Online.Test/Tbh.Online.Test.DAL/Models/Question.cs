@@ -7,6 +7,11 @@ namespace Tbh.Online.Test.DAL.Models
 {
     public partial class Question
     {
+        public Question()
+        {
+            Answers = new HashSet<Answer>();
+        }
+
         public int Id { get; set; }
         public int ExamId { get; set; }
         public int TypeId { get; set; }
@@ -16,8 +21,10 @@ namespace Tbh.Online.Test.DAL.Models
         public string CreatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
+        public string SubText { get; set; }
 
         public virtual Exam Exam { get; set; }
         public virtual QuestionType Type { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
     }
 }

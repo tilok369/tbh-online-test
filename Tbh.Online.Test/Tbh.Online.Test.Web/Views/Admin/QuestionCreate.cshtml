@@ -1,0 +1,60 @@
+﻿<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-12 offset-lg-1 offset-md-1">
+        <div class="card">
+            <div class="card-body bg-dark">
+                <h4 class="text-white">Create Question Set</h4>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-white">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp">
+                    <div id="titleHelp" class="form-text text-secondary">Set title of the question set</div>
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label text-white">Duration</label>
+                    <select id="duration" name="duration" class="form-control" aria-label="Default select example">
+                        <option value="30">30 Minutes</option>
+                        <option value="60">60 Minutes</option>
+                        <option value="90">90 Minutes</option>
+                        <option value="120">120 Minutes</option>
+                    </select>
+                    <div id="durationHelp" class="form-text text-secondary">Set exam duration in minutes</div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="status">
+                    <label class="form-check-label text-white" for="status">
+                        Activate
+                    </label>
+                </div>
+
+                <h5 class="mt-4 text-white">Questions</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="float-right">Delete <i style="cursor: pointer;" class="fa fa-times-circle text-danger"></i></div>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="question-text" class="form-label text-dark">Question Text</label>
+                        <input type="text" class="form-control" id="question-text" name="question-text">
+                    </li>
+                    <li class="list-group-item">
+                        <label for="question-code" class="form-label text-dark">Question Subtext/Code</label>
+                        <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
+                        <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
+                        <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
+                        <textarea class="answer-area" id="question-code"></textarea>
+                    </li>
+                    <li style="font-family: monospace;" class="list-group-item">
+                        {<br />
+                        "For Loop": {<br />
+                        "prefix": ["for", "for-const"],<br />
+                        "body": ["for (const ${2:element} of ${1:array}) {", "\t$0", "}"],<br />
+                        "description": "A for loop."<br />
+                        }<br />
+                        }
+                    </li>
+                    <li class="list-group-item">
+                        <div class="float-right">Add new <i style="cursor: pointer;" class="fa fa-plus-circle text-success"></i></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

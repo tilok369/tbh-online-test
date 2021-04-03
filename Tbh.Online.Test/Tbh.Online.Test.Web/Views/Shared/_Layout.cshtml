@@ -19,6 +19,12 @@
                 </button>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav mr-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                            </li>
+                        }
                     </ul>
                     <ul class="navbar-nav">
                         @if (!User.Identity.IsAuthenticated)

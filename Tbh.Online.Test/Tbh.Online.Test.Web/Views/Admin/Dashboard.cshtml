@@ -1,1 +1,56 @@
-﻿<h1>Hi Dashboard</h1>
+﻿<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-12 offset-lg-1 offset-md-1">
+        <div class="card">
+            <div class="card-body bg-transparent">
+                <h4 class="card-title"><i class="fa fa-chart-bar"></i> Admin Dashboard</h4>
+                <a asp-controller="Admin" asp-action="QuestionCreate" class="btn btn-outline-primary text-dark">Create Question Set</a>
+                <h5 class="mt-4">Available Questions</h5>
+
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Quetions</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>SSE Question Set 1</td>
+                            <td>15</td>
+                            <td>90 Minutes</td>
+                            <td>Active</td>
+                            <td>
+                                <a href="javascript:void(0)"><i class="fa fa-list" title="View Details"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>SSE Question Set 1</td>
+                            <td>15</td>
+                            <td>90 Minutes</td>
+                            <td>Active</td>
+                            <td>
+                                <a href="javascript:void(0)"><i class="fa fa-list" title="View Details"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>SSE Question Set 1</td>
+                            <td>15</td>
+                            <td>90 Minutes</td>
+                            <td>Active</td>
+                            <td>
+                                <a href="javascript:void(0)"><i class="fa fa-list" title="View Details"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

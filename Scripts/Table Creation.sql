@@ -86,3 +86,7 @@ Create table [dbo].[Answer]
 	foreign key (ExamineeId) references [dbo].[Examinee](Id),
 	foreign key (ExamId) references [dbo].[Exam](Id)
 )
+
+alter table [dbo].[Question] add SubText nvarchar(max) null
+alter table [dbo].[Answer] add QuestionId int not null
+alter table [dbo].[Answer] add foreign key (QuestionId) references [dbo].[Question](Id)

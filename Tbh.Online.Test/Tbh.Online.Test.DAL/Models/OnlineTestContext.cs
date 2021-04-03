@@ -62,6 +62,12 @@ namespace Tbh.Online.Test.DAL.Models
                     .HasForeignKey(d => d.ExamineeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Answer__Examinee__1ED998B2");
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.Answers)
+                    .HasForeignKey(d => d.QuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Answer__Question__20C1E124");
             });
 
             modelBuilder.Entity<Exam>(entity =>
