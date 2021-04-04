@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbh.Online.Test.Web", "Tbh.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbh.Online.Test.DAL", "Tbh.Online.Test.DAL\Tbh.Online.Test.DAL.csproj", "{81406832-2D88-4CA2-8D8D-795D229CA08B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbh.Online.Test.Service", "Tbh.Online.Test.Service\Tbh.Online.Test.Service.csproj", "{A9F5E4FB-F432-46E7-B1B9-58645DDF7B6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tbh.Online.Test.Model", "Tbh.Online.Test.Model\Tbh.Online.Test.Model.csproj", "{D14AFE5B-3257-4F1F-B968-533A4DCE112F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{81406832-2D88-4CA2-8D8D-795D229CA08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81406832-2D88-4CA2-8D8D-795D229CA08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81406832-2D88-4CA2-8D8D-795D229CA08B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F5E4FB-F432-46E7-B1B9-58645DDF7B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F5E4FB-F432-46E7-B1B9-58645DDF7B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F5E4FB-F432-46E7-B1B9-58645DDF7B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F5E4FB-F432-46E7-B1B9-58645DDF7B6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D14AFE5B-3257-4F1F-B968-533A4DCE112F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D14AFE5B-3257-4F1F-B968-533A4DCE112F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D14AFE5B-3257-4F1F-B968-533A4DCE112F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D14AFE5B-3257-4F1F-B968-533A4DCE112F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

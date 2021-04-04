@@ -31,17 +31,26 @@
                         <div class="float-right">Delete <i style="cursor: pointer;" class="fa fa-times-circle text-danger"></i></div>
                     </li>
                     <li class="list-group-item">
-                        <label for="question-text" class="form-label text-dark">Question Text</label>
-                        <input type="text" class="form-control" id="question-text" name="question-text">
+                        <label for="type-1" class="form-label text-dark">Question Type</label>
+                        <select id="type-1" name="duration" class="form-control" aria-label="Default select example">
+                            <option value="1">Explanation</option>
+                            <option value="2">Coding Output</option>
+                            <option value="3">Code Writing</option>
+                            <option value="4">MCQ</option>
+                        </select>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="question-text-1" class="form-label text-dark">Question Text</label>
+                        <input type="text" class="form-control" id="question-text-1" name="question-text">
                     </li>
                     <li class="list-group-item">
                         <label for="question-code" class="form-label text-dark">Question Subtext/Code</label>
                         <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
                         <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
                         <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
-                        <textarea class="answer-area" id="question-code"></textarea>
+                        <textarea class="answer-area" id="question-code-1" oninput="questionService.onCodeChange(1)"></textarea>
                     </li>
-                    <li style="font-family: monospace;" class="list-group-item">
+                    <li id="question-code-formatted-1" style="font-family: monospace;" class="list-group-item">
                         {<br />
                         "For Loop": {<br />
                         "prefix": ["for", "for-const"],<br />

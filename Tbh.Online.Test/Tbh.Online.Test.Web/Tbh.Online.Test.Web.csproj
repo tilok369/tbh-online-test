@@ -10,6 +10,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tbh.Online.Test.DAL\Tbh.Online.Test.DAL.csproj" />
+    <ProjectReference Include="..\Tbh.Online.Test.Model\Tbh.Online.Test.Model.csproj" />
+    <ProjectReference Include="..\Tbh.Online.Test.Service\Tbh.Online.Test.Service.csproj" />
   </ItemGroup>
 
 </Project>

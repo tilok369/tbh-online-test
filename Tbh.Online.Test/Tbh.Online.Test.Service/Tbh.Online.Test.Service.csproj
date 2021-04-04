@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tbh.Online.Test.DAL\Tbh.Online.Test.DAL.csproj" />
+    <ProjectReference Include="..\Tbh.Online.Test.Model\Tbh.Online.Test.Model.csproj" />
+  </ItemGroup>
+
+</Project>
