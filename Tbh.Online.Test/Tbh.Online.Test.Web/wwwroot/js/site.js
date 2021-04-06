@@ -4,6 +4,15 @@
 // Write your JavaScript code.
 
 var questionService = {
+    getRootUrl: function () {
+        var url = window.location.origin;
+        var paths = window.location.pathname.substring(1, window.location.pathname.length).split('/');
+        for (var i = 0; i < paths.length - 2; i++) {
+            url += '/' + paths[i];
+        }
+        return url;
+    },
+
     onCodeChange: function (index) {
         if ($('#question-code-' + index).val().startsWith('~') && $('#question-code-' + index).val().endsWith('~')) {
             $('#question-code-formatted-' + index).css('font-family', 'monospace');
@@ -20,5 +29,91 @@ var questionService = {
         code = code.replace(/`/g, '&nbsp;');
         code = code.replace(/\n/g, '<br />');
         return code;
+    },
+
+    addQuestionGroup: function (index) {
+        $('#question-group-' + (index - 1)).append(
+            '<ul id = "question-group-' + index + '"  data-id="0" class= "list-group list-group-flush" >' +
+                '<li class= "list-group-item" >' +
+            '<div class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
+                '</li >' +
+                '<li class="list-group-item">' +
+                    '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
+                    '<select id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
+                    '<option value="1">Explanation</option>' +
+                    '<option value="2">Coding Output</option>' +
+                    '<option value="3">Code Writing</option>' +
+                    '<option value="4">MCQ</option>' +
+                    '</select>' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                    '<label for="question-text-' + index + '" class="form-label text-dark">Question Text</label>' +
+                    '<input type="text" class="form-control" id="question-text-' + index + '" name="question-text">' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                    '<label for="question-code' + index + '" class="form-label text-dark">Question Subtext/Code</label>' +
+                    '<div class="form-text text-secondary">Enclose code snippet in tild(~)</div>' +
+                    '<div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>' +
+                    '<div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>' +
+                    '<textarea class="answer-area" id="question-code-' + index + '" oninput="questionService.onCodeChange(' + index + ')"></textarea>' +
+                '</li>' +
+                '<li id="question-code-formatted-' + index + '" style="font-family: monospace;" class="list-group-item">' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                    '<div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(' + (index + 1) + ')" class="fa fa-plus-circle text-success"></i></div>' +
+                '</li>' +
+            '</ul>')
+    },
+
+    deleteQuestionGroup: function (index) {
+        $('#question-group-' + index).remove();
+    },
+
+    formatQuestionsJson: function () {
+        var json = [];
+        $("ul[id^=question-group-]").each(function (index) {
+            var i = index + 1;
+            var item = {
+                Id: parseInt($('#question-group-' + i).attr('data-id')),
+                ExamId: parseInt($('#exam-id').val()),
+                TypeId: parseInt($('#type-' + i).val()),
+                Text: $('#question-text-' + i).val(),
+                SubText: $('#question-code-' + i).val(),
+                Options: '',
+                CreatedOn: $('#exam-created-on').val(),
+                CreatedBy: $('#exam-created-by').val()
+            }
+            json.push(item);
+        });
+        return json;
+    },
+
+    saveQuestions: function () {
+        var exam = {
+            Id: parseInt($('#exam-id').val()),
+            Title: $('#title').val(),
+            Duration: parseInt($('#duration').val()),
+            TotalQuestions: $("ul[id^=question-group-]").length,
+            Status: $('#status').is(':checked'),
+            CreatedOn: $('#exam-created-on').val(),
+            CreatedBy: $('#exam-created-by').val()
+        };
+        var questions = questionService.formatQuestionsJson();
+        console.log(exam);
+        console.log(questions);
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/Question",
+            data: JSON.stringify({ Exam: exam, Questions: questions }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
     }
 };

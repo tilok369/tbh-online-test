@@ -3,8 +3,11 @@
         <div class="card">
             <div class="card-body bg-dark">
                 <h4 class="text-white">Create Question Set</h4>
+                <input type="hidden" id="exam-id" value="0" />
+                <input type="hidden" id="exam-created-on" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" />
+                <input type="hidden" id="exam-created-by" value="@User.Identity.Name" />
                 <div class="mb-3">
-                    <label for="email" class="form-label text-white">Title</label>
+                    <label for="title" class="form-label text-white">Title</label>
                     <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp">
                     <div id="titleHelp" class="form-text text-secondary">Set title of the question set</div>
                 </div>
@@ -26,8 +29,8 @@
                 </div>
 
                 <h5 class="mt-4 text-white">Questions</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                <ul id="question-group-1" data-id="0" class="list-group list-group-flush">
+                    <li style="display: none;" class="list-group-item">
                         <div class="float-right">Delete <i style="cursor: pointer;" class="fa fa-times-circle text-danger"></i></div>
                     </li>
                     <li class="list-group-item">
@@ -44,7 +47,7 @@
                         <input type="text" class="form-control" id="question-text-1" name="question-text">
                     </li>
                     <li class="list-group-item">
-                        <label for="question-code" class="form-label text-dark">Question Subtext/Code</label>
+                        <label for="question-code-1" class="form-label text-dark">Question Subtext/Code</label>
                         <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
                         <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
                         <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
@@ -53,9 +56,10 @@
                     <li id="question-code-formatted-1" style="font-family: monospace;" class="list-group-item">
                     </li>
                     <li class="list-group-item">
-                        <div class="float-right">Add new <i style="cursor: pointer;" class="fa fa-plus-circle text-success"></i></div>
+                        <div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(2)" class="fa fa-plus-circle text-success"></i></div>
                     </li>
                 </ul>
+                <button type="button" onclick="questionService.saveQuestions()" class="btn btn-info float-right mt-2">Save Questions</button>
             </div>
         </div>
     </div>

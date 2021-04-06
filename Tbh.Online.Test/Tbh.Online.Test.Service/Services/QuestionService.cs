@@ -38,8 +38,13 @@ namespace Tbh.Online.Test.Service.Services
             };
         }
 
-        public CrudResult Save(AppExam exam, List<AppQuestion> questions)
+        public CrudResult Save(AppExam exam, List<AppQuestion> questions, string user)
         {
+            exam.UpdatedBy = user;
+            exam.UpdatedOn = DateTime.Now;
+
+            questions.ForEach(q => { q.UpdatedOn = DateTime.Now; q.UpdatedBy = user; });
+
             var mapper = _config.CreateMapper();
             var dbExam = mapper.Map<AppExam, Exam>(exam);          
 

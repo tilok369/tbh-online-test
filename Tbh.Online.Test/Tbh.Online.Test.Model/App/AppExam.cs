@@ -10,6 +10,7 @@ namespace Tbh.Online.Test.Model.App
         public string Title { get; set; }
         public int TotalQuestions { get; set; }
         public int Duration { get; set; }
+        public bool Status { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }
