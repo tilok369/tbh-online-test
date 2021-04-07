@@ -40,5 +40,12 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _questionService.GetExams();
             return Ok(data);
         }
+
+        [HttpDelete("")]
+        public ActionResult<List<AppExam>> DeleteQuestion(int id)
+        {
+            var data = _questionService.Delete(id);
+            return Ok(data);
+        }
     }
 }

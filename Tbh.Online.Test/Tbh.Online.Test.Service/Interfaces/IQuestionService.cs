@@ -10,5 +10,6 @@ namespace Tbh.Online.Test.Service.Interfaces
         CrudResult Save(AppExam exam, List<AppQuestion> questions, string user);
         AppExamQuestion Get(int id);
         List<AppExam> GetExams();
+        CrudResult Delete(int id);
     }
 }

@@ -10,6 +10,7 @@ using Tbh.Online.Test.Service.Interfaces;
 
 namespace Tbh.Online.Test.Service.Services
 {
+
     public class QuestionService: GenericCrudService, IQuestionService
     {
 
@@ -26,6 +27,12 @@ namespace Tbh.Online.Test.Service.Services
                 cfg.CreateMap<Exam, AppExam>();
                 cfg.CreateMap<Question, AppQuestion>();
             });
+        }
+
+        public CrudResult Delete(int id)
+        {
+            var result = Delete<Question>(id);
+            return new CrudResult(result.Success, result.Message);
         }
 
         public AppExamQuestion Get(int id)

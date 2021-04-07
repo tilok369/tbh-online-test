@@ -67,7 +67,25 @@ var questionService = {
     },
 
     deleteQuestionGroup: function (index) {
-        $('#question-group-' + index).remove();
+        if (parseInt($('#question-group-' + index).attr('data-id')) > 0) {
+            $.ajax({
+                type: "DELETE",
+                url: questionService.getRootUrl() + "/api/v1.0/Question?id=" + $('#question-group-' + index).attr('data-id'),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.Success) {
+                        $('#question-group-' + index).remove();
+                    }
+                },
+                error: function (xhr, status, exception) {
+                    console.log(xhr);
+                    console.log("Error: " + exception + ", Status: " + status);
+                }
+            });
+        } else {
+            $('#question-group-' + index).remove();
+        }        
     },
 
     formatQuestionsJson: function () {
