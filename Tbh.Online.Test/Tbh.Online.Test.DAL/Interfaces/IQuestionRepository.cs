@@ -9,5 +9,6 @@ namespace Tbh.Online.Test.DAL.Interfaces
     {
         Exam GetExam(int id);
         List<Question> GetByExam(int examId);
+        List<Exam> GetExams();
     }
 }

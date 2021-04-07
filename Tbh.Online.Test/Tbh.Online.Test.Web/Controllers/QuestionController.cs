@@ -30,7 +30,14 @@ namespace Tbh.Online.Test.Web.Controllers
         [HttpPost()]
         public ActionResult<CrudResult> SaveQuestions(AppExamQuestion question)
         {
-            var data = _questionService.Save(question.Exam, question.Questions);
+            var data = _questionService.Save(question.Exam, question.Questions, User.Identity.Name);
+            return Ok(data);
+        }
+
+        [HttpGet("exams")]
+        public ActionResult<List<AppExam>> GetExams()
+        {
+            var data = _questionService.GetExams();
             return Ok(data);
         }
     }

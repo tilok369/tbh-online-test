@@ -20,8 +20,9 @@ namespace Tbh.Online.Test.Web.Controllers
             return View();
         }
 
-        public IActionResult QuestionView()
+        public IActionResult QuestionView(int examId)
         {
+            ViewBag.ExamId = examId;
             return View();
         }
 

@@ -6,7 +6,7 @@
                 <a asp-controller="Admin" asp-action="QuestionCreate" class="btn btn-outline-primary text-dark">Create Question Set</a>
                 <h5 class="mt-4">Available Questions</h5>
 
-                <table class="table table-dark table-striped table-hover">
+                <table id="exam-table" class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -18,39 +18,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>SSE Question Set 1</td>
-                            <td>15</td>
-                            <td>90 Minutes</td>
-                            <td>Active</td>
-                            <td>
-                                <a href="javascript:void(0)"><i class="fa fa-list" title="View Details"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SSE Question Set 1</td>
-                            <td>15</td>
-                            <td>90 Minutes</td>
-                            <td>Active</td>
-                            <td>
-                                <a href="javascript:void(0)"><i class="fa fa-list" title="View Details"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>SSE Question Set 1</td>
-                            <td>15</td>
-                            <td>90 Minutes</td>
-                            <td>Active</td>
-                            <td>
-                                <a href="javascript:void(0)"><i class="fa fa-list" title="View Details"></i></a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        questionService.getExams();
+    });
+</script>

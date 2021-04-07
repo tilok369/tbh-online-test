@@ -1,5 +1,73 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-12 offset-lg-1 offset-md-1">
+        <div class="card">
+            <div class="card-body bg-dark">
+                <h4 class="text-white">View/Edit Question Set</h4>
+                <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
+                <input type="hidden" id="exam-created-on" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" />
+                <input type="hidden" id="exam-created-by" value="@User.Identity.Name" />
+                <div class="mb-3">
+                    <label for="title" class="form-label text-white">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp">
+                    <div id="titleHelp" class="form-text text-secondary">Set title of the question set</div>
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label text-white">Duration</label>
+                    <select id="duration" name="duration" class="form-control" aria-label="Default select example">
+                        <option value="30">30 Minutes</option>
+                        <option value="60">60 Minutes</option>
+                        <option value="90">90 Minutes</option>
+                        <option value="120">120 Minutes</option>
+                    </select>
+                    <div id="durationHelp" class="form-text text-secondary">Set exam duration in minutes</div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="status">
+                    <label class="form-check-label text-white" for="status">
+                        Activate
+                    </label>
+                </div>
+
+                <h5 id="questions" class="mt-4 text-white">Questions</h5>
+                <div id="questions-container"></div>
+                @*<ul id="question-group-1" data-id="0" class="list-group list-group-flush">
+                    <li style="display: none;" class="list-group-item">
+                        <div class="float-right">Delete <i style="cursor: pointer;" class="fa fa-times-circle text-danger"></i></div>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="type-1" class="form-label text-dark">Question Type</label>
+                        <select id="type-1" name="duration" class="form-control" aria-label="Default select example">
+                            <option value="1" selected="selected">Explanation</option>
+                            <option value="2">Coding Output</option>
+                            <option value="3">Code Writing</option>
+                            <option value="4">MCQ</option>
+                        </select>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="question-text-1" class="form-label text-dark">Question Text</label>
+                        <input type="text" class="form-control" id="question-text-1" name="question-text">
+                    </li>
+                    <li class="list-group-item">
+                        <label for="question-code-1" class="form-label text-dark">Question Subtext/Code</label>
+                        <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
+                        <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
+                        <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
+                        <textarea class="answer-area" id="question-code-1" oninput="questionService.onCodeChange(1)"></textarea>
+                    </li>
+                    <li id="question-code-formatted-1" style="font-family: monospace;" class="list-group-item">
+                    </li>
+                    <li class="list-group-item">
+                        <div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(2)" class="fa fa-plus-circle text-success"></i></div>
+                    </li>
+                </ul>*@
+                <button type="button" onclick="questionService.saveQuestions()" class="btn btn-info float-right mt-2">Save Questions</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        questionService.getQuestionDetails();
+    });
+</script>

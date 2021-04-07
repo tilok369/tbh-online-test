@@ -34,5 +34,13 @@ namespace Tbh.Online.Test.DAL.Repositories
                 return context.Exams.FirstOrDefault(e => e.Id == id);
             }
         }
+
+        public List<Exam> GetExams()
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                return context.Exams.OrderByDescending(e=>e.CreatedOn).ToList();
+            }
+        }
     }
 }

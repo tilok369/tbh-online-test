@@ -38,6 +38,13 @@ namespace Tbh.Online.Test.Service.Services
             };
         }
 
+        public List<AppExam> GetExams()
+        {
+            var mapper = _config.CreateMapper();
+            var exams = mapper.Map<List<Exam>, List<AppExam>>(_questionRepository.GetExams());
+            return exams;
+        }
+
         public CrudResult Save(AppExam exam, List<AppQuestion> questions, string user)
         {
             exam.UpdatedBy = user;
