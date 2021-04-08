@@ -50,13 +50,13 @@
                         <label for="question-code-1" class="form-label text-dark">Question Subtext/Code</label>
                         <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
                         <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
-                        <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
+                        <div class="form-text text-secondary">For MCQ options use [*] along with option text per line</div>
                         <textarea class="answer-area" id="question-code-1" oninput="questionService.onCodeChange(1)"></textarea>
                     </li>
                     <li id="question-code-formatted-1" style="font-family: monospace;" class="list-group-item">
                     </li>
                     <li class="list-group-item">
-                        <div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(2)" class="fa fa-plus-circle text-success"></i></div>
+                        <div id="question-add-btn-1" class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(2)" class="fa fa-plus-circle text-success"></i></div>
                     </li>
                 </ul>
                 <button type="button" onclick="questionService.saveQuestions()" class="btn btn-info float-right mt-2">Save Questions</button>

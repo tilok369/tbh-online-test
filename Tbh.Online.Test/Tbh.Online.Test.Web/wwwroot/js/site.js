@@ -35,35 +35,42 @@ var questionService = {
     addQuestionGroup: function (index) {
         $('#question-group-' + (index - 1)).append(
             '<ul id = "question-group-' + index + '"  data-id="0" class= "list-group list-group-flush" >' +
-                '<li class= "list-group-item" >' +
+            '<li class= "list-group-item" >' +
             '<div class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
-                '</li >' +
-                '<li class="list-group-item">' +
-                    '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
-                    '<select id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
-                    '<option value="1">Explanation</option>' +
-                    '<option value="2">Coding Output</option>' +
-                    '<option value="3">Code Writing</option>' +
-                    '<option value="4">MCQ</option>' +
-                    '</select>' +
-                '</li>' +
-                '<li class="list-group-item">' +
-                    '<label for="question-text-' + index + '" class="form-label text-dark">Question Text</label>' +
-                    '<input type="text" class="form-control" id="question-text-' + index + '" name="question-text">' +
-                '</li>' +
-                '<li class="list-group-item">' +
-                    '<label for="question-code' + index + '" class="form-label text-dark">Question Subtext/Code</label>' +
-                    '<div class="form-text text-secondary">Enclose code snippet in tild(~)</div>' +
-                    '<div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>' +
-                    '<div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>' +
-                    '<textarea class="answer-area" id="question-code-' + index + '" oninput="questionService.onCodeChange(' + index + ')"></textarea>' +
-                '</li>' +
-                '<li id="question-code-formatted-' + index + '" style="font-family: monospace;" class="list-group-item">' +
-                '</li>' +
-                '<li class="list-group-item">' +
-                    '<div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(' + (index + 1) + ')" class="fa fa-plus-circle text-success"></i></div>' +
-                '</li>' +
-            '</ul>')
+            '</li >' +
+            '<li class="list-group-item">' +
+            '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
+            '<select id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
+            '<option value="1">Explanation</option>' +
+            '<option value="2">Coding Output</option>' +
+            '<option value="3">Code Writing</option>' +
+            '<option value="4">MCQ</option>' +
+            '</select>' +
+            '</li>' +
+            '<li class="list-group-item">' +
+            '<label for="question-text-' + index + '" class="form-label text-dark">Question Text</label>' +
+            '<input type="text" class="form-control" id="question-text-' + index + '" name="question-text">' +
+            '</li>' +
+            '<li class="list-group-item">' +
+            '<label for="question-code' + index + '" class="form-label text-dark">Question Subtext/Code</label>' +
+            '<div class="form-text text-secondary">Enclose code snippet in tild(~)</div>' +
+            '<div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>' +
+            '<div class="form-text text-secondary">For MCQ options use [*] along with option text per line</div>' +
+            '<textarea class="answer-area" id="question-code-' + index + '" oninput="questionService.onCodeChange(' + index + ')"></textarea>' +
+            '</li>' +
+            '<li id="question-code-formatted-' + index + '" style="font-family: monospace;" class="list-group-item">' +
+            '</li>' +
+            '<li class="list-group-item">' +
+            '<div id="question-add-btn-' + index + '" class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(' + (index + 1) + ')" class="fa fa-plus-circle text-success"></i></div>' +
+            '</li>' +
+            '</ul>');
+
+        console.log($("ul[id^=question-group-]").length);
+        $("ul[id^=question-group-]").each(function (index) {
+            if ($("ul[id^=question-group-]").length > (index + 1)) {
+                $('#question-add-btn-' + (index + 1)).css('display', 'none');
+            }
+        });
     },
 
     deleteQuestionGroup: function (index) {
@@ -88,26 +95,40 @@ var questionService = {
         }        
     },
 
+    saveValidation: function () {
+        if (!$('#title').val()) {
+            alert('Please enter question set title');
+            return false;
+        }
+        return true;
+    },
+
     formatQuestionsJson: function () {
         var json = [];
         $("ul[id^=question-group-]").each(function (index) {
             var i = index + 1;
-            var item = {
-                Id: parseInt($('#question-group-' + i).attr('data-id')),
-                ExamId: parseInt($('#exam-id').val()),
-                TypeId: parseInt($('#type-' + i).val()),
-                Text: $('#question-text-' + i).val(),
-                SubText: $('#question-code-' + i).val(),
-                Options: '',
-                CreatedOn: new Date($('#exam-created-on').val()),
-                CreatedBy: $('#exam-created-by').val()
-            }
-            json.push(item);
+            if ($('#question-text-' + i).val()) {
+                var item = {
+                    Id: parseInt($('#question-group-' + i).attr('data-id')),
+                    ExamId: parseInt($('#exam-id').val()),
+                    TypeId: parseInt($('#type-' + i).val()),
+                    Text: $('#question-text-' + i).val(),
+                    SubText: $('#question-code-' + i).val(),
+                    Options: '',
+                    CreatedOn: new Date($('#exam-created-on').val()),
+                    CreatedBy: $('#exam-created-by').val()
+                }
+                json.push(item);
+            }            
         });
         return json;
     },
 
     saveQuestions: function () {
+        if (!questionService.saveValidation()) {
+            return;
+        }
+
         var exam = {
             Id: parseInt($('#exam-id').val()),
             Title: $('#title').val(),
@@ -127,7 +148,12 @@ var questionService = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                console.log(result);
+                if (result.Success) {
+                    alert('Question set saved successfully');
+                    window.location = questionService.getRootUrl() + '/Admin/Dashboard';
+                } else {
+                    alert('Error while saving questions, please contact administrator');
+                }
             },
             error: function (xhr, status, exception) {
                 console.log(xhr);
@@ -189,12 +215,17 @@ var questionService = {
     },
 
     renderQuestionsData: function (data) {
+        $('#exam-created-on').val(data.Exam.CreatedOn);
+        $('#exam-created-by').val(data.Exam.CreatedBy);
+        $('#title').val(data.Exam.Title);
+        $('#duration').val(data.Exam.Duration);
+        $('#status').prop('checked', data.Exam.Status);
         var html = '';
         $.each(data.Questions, function (i, value) {
             var index = i + 1;
             html += '<ul id = "question-group-' + index + '"  data-id="' + value.Id + '" class= "list-group list-group-flush" >' +
                 '<li class= "list-group-item" >' +
-                '<div class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
+                '<div ' + (index === 1 ? 'style="display:none;"' : '') +' class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
                 '</li >' +
                 '<li class="list-group-item">' +
                 '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
@@ -220,11 +251,11 @@ var questionService = {
                 questionService.formatCode(value.SubText) +
                 '</li>' +
                 '<li class="list-group-item">' +
-                '<div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(' + (index + 1) + ')" class="fa fa-plus-circle text-success"></i></div>' +
+                '<div id="question-add-btn-' + index + '" ' + (data.Questions.length > index ? 'style="display: none;"' : '') + ' class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(' + (index + 1) + ')" class="fa fa-plus-circle text-success"></i></div>' +
                 '</li>' +
                 '</ul>';
 
-            console.log(html);
+            //console.log(html);
         });
 
         $('#questions-container').html(html);
