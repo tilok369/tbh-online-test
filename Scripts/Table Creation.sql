@@ -90,3 +90,11 @@ Create table [dbo].[Answer]
 alter table [dbo].[Question] add SubText nvarchar(max) null
 alter table [dbo].[Answer] add QuestionId int not null
 alter table [dbo].[Answer] add foreign key (QuestionId) references [dbo].[Question](Id)
+alter table [dbo].[Exam] add [Status] bit not null
+alter table [dbo].[Examinee] add Phone nvarchar(20) not null
+
+--insert into [dbo].[QuestionType] ([Name]) values ('Explanation'), ('Coding Output'), ('Code Writing'), ('MCQ')
+select * from [dbo].[QuestionType]
+select * from [dbo].[Exam]
+select * from [dbo].[Question]
+select * from [dbo].[Examinee]

@@ -29,6 +29,7 @@ var questionService = {
         code = code.replace(/~/g, '&nbsp;');
         code = code.replace(/`/g, '&nbsp;');
         code = code.replace(/\n/g, '<br />');
+        code = code.replace(/[|]/g, '<br />');
         return code;
     },
 
@@ -55,7 +56,7 @@ var questionService = {
             '<label for="question-code' + index + '" class="form-label text-dark">Question Subtext/Code</label>' +
             '<div class="form-text text-secondary">Enclose code snippet in tild(~)</div>' +
             '<div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>' +
-            '<div class="form-text text-secondary">For MCQ options use [*] along with option text per line</div>' +
+            '<div class="form-text text-secondary">For MCQ options use [*] along with option and pipe(|) at the end of each option</div>' +
             '<textarea class="answer-area" id="question-code-' + index + '" oninput="questionService.onCodeChange(' + index + ')"></textarea>' +
             '</li>' +
             '<li id="question-code-formatted-' + index + '" style="font-family: monospace;" class="list-group-item">' +
@@ -230,10 +231,10 @@ var questionService = {
                 '<li class="list-group-item">' +
                 '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
                 '<select id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
-                '<option value="1" ' + (value.Duration == 1 ? 'selected="selected"' : '') + '>Explanation</option>' +
-                '<option value="2" ' + (value.Duration == 2 ? 'selected="selected"' : '') + '>Coding Output</option>' +
-                '<option value="3" ' + (value.Duration == 3 ? 'selected="selected"' : '') + '>Code Writing</option>' +
-                '<option value="4" ' + (value.Duration == 4 ? 'selected="selected"' : '') + '>MCQ</option>' +
+                '<option value="1" ' + (value.TypeId == 1 ? 'selected="selected"' : '') + '>Explanation</option>' +
+                '<option value="2" ' + (value.TypeId == 2 ? 'selected="selected"' : '') + '>Coding Output</option>' +
+                '<option value="3" ' + (value.TypeId == 3 ? 'selected="selected"' : '') + '>Code Writing</option>' +
+                '<option value="4" ' + (value.TypeId == 4 ? 'selected="selected"' : '') + '>MCQ</option>' +
                 '</select>' +
                 '</li>' +
                 '<li class="list-group-item">' +
@@ -244,7 +245,7 @@ var questionService = {
                 '<label for="question-code' + index + '" class="form-label text-dark">Question Subtext/Code</label>' +
                 '<div class="form-text text-secondary">Enclose code snippet in tild(~)</div>' +
                 '<div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>' +
-                '<div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>' +
+                '<div class="form-text text-secondary">For MCQ options use [*] along with option and pipe(|) at the end of each option</div>' +
                 '<textarea class="answer-area" id="question-code-' + index + '" oninput="questionService.onCodeChange(' + index + ')">' + value.SubText + '</textarea>' +
                 '</li>' +
                 '<li id="question-code-formatted-' + index + '" style="font-family: monospace;" class="list-group-item">' +
@@ -311,4 +312,66 @@ var questionService = {
 
         }        
     },
+
+    getAnswerDetails: function () {
+        $.ajax({
+            type: "GET",
+            url: questionService.getRootUrl() + "/api/v1.0/Question?examId=3",// + $('#exam-id').val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                questionService.renderExamsData(result);
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    },
+
+    renderExamsData: function (data) {
+        $('#title').html('&nbsp;' + data.Exam.Title);
+        var html = '';
+        $.each(data.Questions, function (i, value) {
+            var index = i + 1;
+            console.log(value.SubText);
+            html += '<ul id="answer-group-' + index + '" class="list-group list-group-flush">' +
+                '<li id = "question-text-' + index + '" data - id="' + value.Id + '" class="list-group-item" > ' + index + ') ' + value.Text + '</li>' +
+                (value.TypeId < 4
+                ?
+                ('<li style="font-family: monospace;" class="list-group-item">' +
+                questionService.formatCode(value.SubText) +
+                '</li>')
+                :
+                questionService.formatCheckboxQuestions(value.SubText, index)
+                ) +
+                '<li class="list-group-item">' +
+                '<textarea id="q-answer-' + index + '" class="answer-area"></textarea>' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                '<button onclick="questionService.submitAnswer(' + data.Exam.Id +', ' + value.Id +')" class="btn btn-success text-white mt-2 mb-5">SUBMIT</button>' +
+                '</li>' +
+            '</ul>';
+            console.log(html);
+        });
+
+        $('#questions-container').html(html);
+    },
+
+    formatCheckboxQuestions: function (text, i) {
+        var html = '<li class="list-group-item">';
+        var options = text.split('|');
+        $.each(options, function (index, value) {
+            html += '<div class="form-check">' +
+                    '<input class="form-check-input" type="radio" name="q-option-' + i + '" id="q-option-' + i + '">' +
+                    '<label class="form-check-label" for="q-option-' + i + '">' +
+                    value.replace('[*]', '') +
+                    '</label>' +
+                '</div>';
+        });
+
+        html += '</li>';
+        return html;
+    }
 };

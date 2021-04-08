@@ -70,6 +70,7 @@ namespace Tbh.Online.Test.Service.Services
 
                 foreach (var qus in dbQuesions)
                 {
+                    if (qus.TypeId == 4) qus.SubText = qus.SubText.Replace("\n", "|");
                     qus.ExamId = examItem.Id;
                     var questionAddResult = qus.Id == 0 ? Add<Question>(qus) : Edit<Question>(qus);
                     if (!questionAddResult.Success) return new CrudResult(questionAddResult.Success, questionAddResult.Message);

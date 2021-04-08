@@ -77,3 +77,19 @@ textarea.answer-area {
     border-color: #bfbcbc;
     resize: none;
 }
+
+.timer-label-1 {
+    font-size: 15px;
+    position: fixed;
+    z-index: 2000;
+    left: 70%;
+    top: 8%;
+}
+
+.timer-label-2 {
+    font-size: 15px;
+    position: fixed;
+    z-index: 2000;
+    left: 78%;
+    top: 8%;
+}
