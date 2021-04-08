@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-#nullable disable
-
-namespace Tbh.Online.Test.DAL.Models
+namespace Tbh.Online.Test.Model.App
 {
-    public partial class Examinee
+    public class AppExaminee
     {
-        public Examinee()
-        {
-            Answers = new HashSet<Answer>();
-        }
-
         public int Id { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
@@ -20,7 +14,5 @@ namespace Tbh.Online.Test.DAL.Models
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
         public string Phone { get; set; }
-
-        public virtual ICollection<Answer> Answers { get; set; }
     }
 }

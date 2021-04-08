@@ -107,6 +107,10 @@ namespace Tbh.Online.Test.DAL.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
                 entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");

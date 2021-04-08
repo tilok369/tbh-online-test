@@ -259,5 +259,56 @@ var questionService = {
         });
 
         $('#questions-container').html(html);
-    }
+    },
+
+    examineeSaveValidation: function () {
+        if (!$('#name').val()) {
+            alert('Please enter full name');
+            return false;
+        }
+        if (!$('#email').val()) {
+            alert('Please enter email address');
+            return false;
+        }
+        if (!$('#phone').val()) {
+            alert('Please enter phone number');
+            return false;
+        }
+        return true;
+    },
+
+    saveExaminee: function () {
+        if (!questionService.examineeSaveValidation()) {
+            return;
+        }
+
+        if (confirm('Are you sure you want to start the TEST? Once you start it, you cannot cancel or restart the TEST')) {
+
+            var examinee = {
+                Id: 0,
+                Name: $('#name').val(),
+                Email: $('#email').val(),
+                Phone: $('#phone').val(),
+            };
+            $.ajax({
+                type: "POST",
+                url: questionService.getRootUrl() + "/api/v1.0/Exam/examinee",
+                data: JSON.stringify(examinee),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.Success) {
+                        window.location = questionService.getRootUrl() + '/Test/Start?examineeId=' + result.Id;
+                    } else {
+                        alert('Error while starting exam, please contact administrator');
+                    }
+                },
+                error: function (xhr, status, exception) {
+                    console.log(xhr);
+                    console.log("Error: " + exception + ", Status: " + status);
+                }
+            });
+
+        }        
+    },
 };

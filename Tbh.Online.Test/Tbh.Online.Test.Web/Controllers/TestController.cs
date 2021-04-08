@@ -13,8 +13,9 @@ namespace Tbh.Online.Test.Web.Controllers
             return View();
         }
 
-        public IActionResult Start()
+        public IActionResult Start(int examineeId)
         {
+            ViewBag.ExamineeId = examineeId;
             return View();
         }
     }

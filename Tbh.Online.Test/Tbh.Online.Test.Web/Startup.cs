@@ -57,6 +57,7 @@ namespace Tbh.Online.Test.Web
             });
 
             services.AddScoped<IQuestionService>(s => new QuestionService(Configuration.GetConnectionString("OnlineTestDB")));
+            services.AddScoped<IExamineeService>(s => new ExamineeService(Configuration.GetConnectionString("OnlineTestDB")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
