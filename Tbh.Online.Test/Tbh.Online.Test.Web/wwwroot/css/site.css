@@ -79,17 +79,17 @@ textarea.answer-area {
 }
 
 .timer-label-1 {
-    font-size: 15px;
+    font-size: 20px;
     position: fixed;
     z-index: 2000;
-    left: 70%;
-    top: 8%;
+    left: 75%;
+    top: 10%;
 }
 
 .timer-label-2 {
-    font-size: 15px;
+    font-size: 20px;
     position: fixed;
     z-index: 2000;
-    left: 78%;
-    top: 8%;
+    left: 87%;
+    top: 10%;
 }

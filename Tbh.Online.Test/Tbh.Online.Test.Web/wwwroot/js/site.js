@@ -66,7 +66,6 @@ var questionService = {
             '</li>' +
             '</ul>');
 
-        console.log($("ul[id^=question-group-]").length);
         $("ul[id^=question-group-]").each(function (index) {
             if ($("ul[id^=question-group-]").length > (index + 1)) {
                 $('#question-add-btn-' + (index + 1)).css('display', 'none');
@@ -140,8 +139,7 @@ var questionService = {
             CreatedBy: $('#exam-created-by').val()
         };
         var questions = questionService.formatQuestionsJson();
-        console.log(exam);
-        console.log(questions);
+
         $.ajax({
             type: "POST",
             url: questionService.getRootUrl() + "/api/v1.0/Question",
@@ -205,7 +203,6 @@ var questionService = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                console.log(result);
                 questionService.renderQuestionsData(result);
             },
             error: function (xhr, status, exception) {
@@ -320,8 +317,8 @@ var questionService = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                console.log(result);
                 questionService.renderExamsData(result);
+                questionService.startTimer(parseInt(result.Exam.Duration));
             },
             error: function (xhr, status, exception) {
                 console.log(xhr);
@@ -332,10 +329,10 @@ var questionService = {
 
     renderExamsData: function (data) {
         $('#title').html('&nbsp;' + data.Exam.Title);
+        $('#exam-duration').text(data.Exam.Duration + ' Minutes')
         var html = '';
         $.each(data.Questions, function (i, value) {
             var index = i + 1;
-            console.log(value.SubText);
             html += '<ul id="answer-group-' + index + '" class="list-group list-group-flush">' +
                 '<li id = "question-text-' + index + '" data - id="' + value.Id + '" class="list-group-item" > ' + index + ') ' + value.Text + '</li>' +
                 (value.TypeId < 4
@@ -353,7 +350,6 @@ var questionService = {
                 '<button onclick="questionService.submitAnswer(' + data.Exam.Id +', ' + value.Id +')" class="btn btn-success text-white mt-2 mb-5">SUBMIT</button>' +
                 '</li>' +
             '</ul>';
-            console.log(html);
         });
 
         $('#questions-container').html(html);
@@ -373,5 +369,33 @@ var questionService = {
 
         html += '</li>';
         return html;
-    }
+    },
+
+    startTimer: function (minutes) {
+        var seconds = minutes * 60;
+        var x = setInterval(function () {
+            var m = parseInt(seconds / 60);
+            var s = seconds % 60;
+            var time = (m < 1 ? '0' + m : m + '') + ':' + (s < 10 ? '0' + s : s + '');
+            $('#exam-timer').text(time);
+            seconds--;
+            if (seconds === 0) {
+                clearInterval(x);
+                $('#exam-timer').text('00:00');
+            }
+        }, 1000);
+    },
+
+    preventExamLeave: function () {
+        $(window).blur(function (e) {
+            if (!document.hasFocus())
+                console.log('tab switched' + new Date());
+            else 
+                console.log('tab not switched' + new Date());
+        });
+        //window.history.forward();
+        //window.onunload = function () { null };
+        //window.onbeforeunload = function () { return "Your work will be lost."; };
+    },
+
 };
