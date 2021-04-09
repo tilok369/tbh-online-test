@@ -81,6 +81,8 @@ namespace Tbh.Online.Test.DAL.Models
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
+                entity.Property(e => e.ExameCode).HasMaxLength(25);
+
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(100);

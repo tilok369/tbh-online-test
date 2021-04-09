@@ -56,6 +56,7 @@ namespace Tbh.Online.Test.Service.Services
         {
             exam.UpdatedBy = user;
             exam.UpdatedOn = DateTime.Now;
+            if (exam.Id == 0) exam.ExameCode = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 22);
 
             questions.ForEach(q => { q.UpdatedOn = DateTime.Now; q.UpdatedBy = user; });
 

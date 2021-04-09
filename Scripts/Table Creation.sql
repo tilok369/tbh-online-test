@@ -108,6 +108,8 @@ alter table [dbo].[Exam] add [Status] bit not null
 alter table [dbo].[Examinee] add Phone nvarchar(20) not null
 alter table [dbo].[Question] add Point float null
 alter table [dbo].[Answer] alter column [Point] float null
+alter table [dbo].[Exam] add ExameCode nvarchar(25) null
+
 
 --insert into [dbo].[QuestionType] ([Name]) values ('Explanation'), ('Coding Output'), ('Code Writing'), ('MCQ')
 select * from [dbo].[QuestionType]
@@ -115,3 +117,5 @@ select * from [dbo].[Exam]
 select * from [dbo].[Question]
 select * from [dbo].[Examinee]
 select * from [dbo].[Answer]
+
+--update [dbo].[Exam] set ExameCode = 'B4D6548B676349CDA82880' where Id = 3

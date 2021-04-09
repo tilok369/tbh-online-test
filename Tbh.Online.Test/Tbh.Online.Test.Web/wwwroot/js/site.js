@@ -141,7 +141,8 @@ var questionService = {
             TotalQuestions: $("ul[id^=question-group-]").length,
             Status: $('#status').is(':checked'),
             CreatedOn: new Date($('#exam-created-on').val()),
-            CreatedBy: $('#exam-created-by').val()
+            CreatedBy: $('#exam-created-by').val(),
+            ExameCode: $('#exam-code').val()
         };
         var questions = questionService.formatQuestionsJson();
 
@@ -218,11 +219,14 @@ var questionService = {
     },
 
     renderQuestionsData: function (data) {
+        console.log(data);
         $('#exam-created-on').val(data.Exam.CreatedOn);
         $('#exam-created-by').val(data.Exam.CreatedBy);
+        $('#exam-code').val(data.Exam.ExameCode);
         $('#title').val(data.Exam.Title);
         $('#duration').val(data.Exam.Duration);
         $('#status').prop('checked', data.Exam.Status);
+        $('#url').val(questionService.getRootUrl() + '/Test/Info?ec=' + data.Exam.ExameCode);
         var html = '';
         $.each(data.Questions, function (i, value) {
             var index = i + 1;

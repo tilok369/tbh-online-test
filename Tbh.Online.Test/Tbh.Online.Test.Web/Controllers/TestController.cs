@@ -8,7 +8,7 @@ namespace Tbh.Online.Test.Web.Controllers
 {
     public class TestController : Controller
     {
-        public IActionResult Info()
+        public IActionResult Info(string ec)
         {
             return View();
         }

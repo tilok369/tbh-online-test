@@ -23,6 +23,7 @@ namespace Tbh.Online.Test.DAL.Models
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
         public bool Status { get; set; }
+        public string ExameCode { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<ExamStatu> ExamStatus { get; set; }

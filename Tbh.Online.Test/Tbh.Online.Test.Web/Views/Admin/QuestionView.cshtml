@@ -6,6 +6,12 @@
                 <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
                 <input type="hidden" id="exam-created-on" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" />
                 <input type="hidden" id="exam-created-by" value="@User.Identity.Name" />
+                <input type="hidden" id="exam-code" value="" />
+                <div class="mb-3">
+                    <label for="url" class="form-label text-white">Exam URL</label>
+                    <input type="text" class="form-control" id="url" name="title" aria-describedby="urlHelp">
+                    <div id="urlHelp" class="form-text text-secondary">Cope this URL to distribute for the examinee</div>
+                </div>
                 <div class="mb-3">
                     <label for="title" class="form-label text-white">Title</label>
                     <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp">
@@ -31,35 +37,35 @@
                 <h5 id="questions" class="mt-4 text-white">Questions</h5>
                 <div id="questions-container"></div>
                 @*<ul id="question-group-1" data-id="0" class="list-group list-group-flush">
-                    <li style="display: none;" class="list-group-item">
-                        <div class="float-right">Delete <i style="cursor: pointer;" class="fa fa-times-circle text-danger"></i></div>
-                    </li>
-                    <li class="list-group-item">
-                        <label for="type-1" class="form-label text-dark">Question Type</label>
-                        <select id="type-1" name="duration" class="form-control" aria-label="Default select example">
-                            <option value="1" selected="selected">Explanation</option>
-                            <option value="2">Coding Output</option>
-                            <option value="3">Code Writing</option>
-                            <option value="4">MCQ</option>
-                        </select>
-                    </li>
-                    <li class="list-group-item">
-                        <label for="question-text-1" class="form-label text-dark">Question Text</label>
-                        <input type="text" class="form-control" id="question-text-1" name="question-text">
-                    </li>
-                    <li class="list-group-item">
-                        <label for="question-code-1" class="form-label text-dark">Question Subtext/Code</label>
-                        <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
-                        <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
-                        <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
-                        <textarea class="answer-area" id="question-code-1" oninput="questionService.onCodeChange(1)"></textarea>
-                    </li>
-                    <li id="question-code-formatted-1" style="font-family: monospace;" class="list-group-item">
-                    </li>
-                    <li class="list-group-item">
-                        <div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(2)" class="fa fa-plus-circle text-success"></i></div>
-                    </li>
-                </ul>*@
+            <li style="display: none;" class="list-group-item">
+                <div class="float-right">Delete <i style="cursor: pointer;" class="fa fa-times-circle text-danger"></i></div>
+            </li>
+            <li class="list-group-item">
+                <label for="type-1" class="form-label text-dark">Question Type</label>
+                <select id="type-1" name="duration" class="form-control" aria-label="Default select example">
+                    <option value="1" selected="selected">Explanation</option>
+                    <option value="2">Coding Output</option>
+                    <option value="3">Code Writing</option>
+                    <option value="4">MCQ</option>
+                </select>
+            </li>
+            <li class="list-group-item">
+                <label for="question-text-1" class="form-label text-dark">Question Text</label>
+                <input type="text" class="form-control" id="question-text-1" name="question-text">
+            </li>
+            <li class="list-group-item">
+                <label for="question-code-1" class="form-label text-dark">Question Subtext/Code</label>
+                <div class="form-text text-secondary">Enclose code snippet in tild(~)</div>
+                <div class="form-text text-secondary">For indentation use ( ` ). One ( ` ) means one tab space, ( `` ) means two tab space and so on</div>
+                <div class="form-text text-secondary">For MCQ options use [1], [2].. [n] along with option text per line</div>
+                <textarea class="answer-area" id="question-code-1" oninput="questionService.onCodeChange(1)"></textarea>
+            </li>
+            <li id="question-code-formatted-1" style="font-family: monospace;" class="list-group-item">
+            </li>
+            <li class="list-group-item">
+                <div class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(2)" class="fa fa-plus-circle text-success"></i></div>
+            </li>
+        </ul>*@
                 <button type="button" onclick="questionService.saveQuestions()" class="btn btn-info float-right mt-2">Save Questions</button>
             </div>
         </div>
