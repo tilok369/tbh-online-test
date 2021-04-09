@@ -11,7 +11,7 @@ namespace Tbh.Online.Test.DAL.Models
         public int ExamId { get; set; }
         public int ExamineeId { get; set; }
         public string Text { get; set; }
-        public int? Point { get; set; }
+        public double? Point { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }

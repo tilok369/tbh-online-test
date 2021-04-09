@@ -87,11 +87,27 @@ Create table [dbo].[Answer]
 	foreign key (ExamId) references [dbo].[Exam](Id)
 )
 
+Create table [dbo].[ExamStatus]
+(
+	Id int not null primary key identity(1,1),
+	[ExamId] int not null, 
+	[ExamineeId] int not null,
+	[Status] int not null,
+	CreatedOn datetime not null,
+	CreatedBy nvarchar(50) not null,
+	UpdatedOn datetime null,
+	UpdatedBy nvarchar(50) null,
+	foreign key (ExamineeId) references [dbo].[Examinee](Id),
+	foreign key (ExamId) references [dbo].[Exam](Id)
+)
+
 alter table [dbo].[Question] add SubText nvarchar(max) null
 alter table [dbo].[Answer] add QuestionId int not null
 alter table [dbo].[Answer] add foreign key (QuestionId) references [dbo].[Question](Id)
 alter table [dbo].[Exam] add [Status] bit not null
 alter table [dbo].[Examinee] add Phone nvarchar(20) not null
+alter table [dbo].[Question] add Point float null
+alter table [dbo].[Answer] alter column [Point] float null
 
 --insert into [dbo].[QuestionType] ([Name]) values ('Explanation'), ('Coding Output'), ('Code Writing'), ('MCQ')
 select * from [dbo].[QuestionType]

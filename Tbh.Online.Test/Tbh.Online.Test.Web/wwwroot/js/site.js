@@ -40,6 +40,10 @@ var questionService = {
             '<div class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
             '</li >' +
             '<li class="list-group-item">' +
+            '<label for="question-mark-' + index + '" class="form-label text-dark">Marks</label>' +
+            '<input type="number" class="form-control" id="question-mark-' + index + '" name="question-mark-' + index + '">' +
+            '</li>' +
+            '<li class="list-group-item">' +
             '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
             '<select id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
             '<option value="1">Explanation</option>' +
@@ -115,6 +119,7 @@ var questionService = {
                     Text: $('#question-text-' + i).val(),
                     SubText: $('#question-code-' + i).val(),
                     Options: '',
+                    Point: parseFloat($('#question-mark-' + i).val()),
                     CreatedOn: new Date($('#exam-created-on').val()),
                     CreatedBy: $('#exam-created-by').val()
                 }
@@ -225,6 +230,10 @@ var questionService = {
                 '<li class= "list-group-item" >' +
                 '<div ' + (index === 1 ? 'style="display:none;"' : '') +' class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
                 '</li >' +
+                '<li class="list-group-item">' +
+                '<label for="question-mark-' + index + '" class="form-label text-dark">Marks</label>' +
+                '<input type="number" class="form-control" id="question-mark-' + index + '" value="' + value.Point + '" name="question-mark-' + index + '">' +
+                '</li>' +
                 '<li class="list-group-item">' +
                 '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
                 '<select id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +

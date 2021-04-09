@@ -22,6 +22,7 @@ namespace Tbh.Online.Test.DAL.Models
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
         public string SubText { get; set; }
+        public double? Point { get; set; }
 
         public virtual Exam Exam { get; set; }
         public virtual QuestionType Type { get; set; }

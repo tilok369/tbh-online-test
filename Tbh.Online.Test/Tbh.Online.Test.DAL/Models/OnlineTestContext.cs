@@ -19,6 +19,7 @@ namespace Tbh.Online.Test.DAL.Models
 
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Exam> Exams { get; set; }
+        public virtual DbSet<ExamStatu> ExamStatus { get; set; }
         public virtual DbSet<Examinee> Examinees { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionType> QuestionTypes { get; set; }
@@ -87,6 +88,31 @@ namespace Tbh.Online.Test.DAL.Models
                 entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<ExamStatu>(entity =>
+            {
+                entity.Property(e => e.CreatedBy)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasMaxLength(50);
+
+                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.ExamStatus)
+                    .HasForeignKey(d => d.ExamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ExamStatu__ExamI__24927208");
+
+                entity.HasOne(d => d.Examinee)
+                    .WithMany(p => p.ExamStatus)
+                    .HasForeignKey(d => d.ExamineeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ExamStatu__Exami__239E4DCF");
             });
 
             modelBuilder.Entity<Examinee>(entity =>
