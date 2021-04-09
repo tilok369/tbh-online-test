@@ -4,6 +4,8 @@
 // Write your JavaScript code.
 
 var questionService = {
+    timer: null,
+    seconds: 0,
     getRootUrl: function () {
         var url = window.location.origin;
         var paths = window.location.pathname.substring(1, window.location.pathname.length).split('/');
@@ -334,6 +336,7 @@ var questionService = {
     getAnswerDetails: function () {
         if (!$('#exam-id').val()) {
             $('#title').html('&nbsp; <strong style="color: red;">Invalid TEST URL!</strong>');
+            $('#complete-btn').hide();
             return;
         }
         $.ajax({
@@ -344,10 +347,11 @@ var questionService = {
             success: function (result) {
                 if (!result.Exam.Status) {
                     $('#title').html('&nbsp; <strong style="color: red;">This TEST is not activated yet. Please try again later!</strong>');
+                    $('#complete-btn').hide();
                     return;
                 }
                 questionService.renderExamsData(result);
-                //questionService.startTimer(parseInt(result.Exam.Duration));
+                questionService.startTimer(parseInt(result.Exam.Duration));
             },
             error: function (xhr, status, exception) {
                 console.log(xhr);
@@ -408,16 +412,17 @@ var questionService = {
     },
 
     startTimer: function (minutes) {
-        var seconds = minutes * 60;
-        var x = setInterval(function () {
-            var m = parseInt(seconds / 60);
-            var s = seconds % 60;
+        questionService.seconds = minutes * 60;
+        questionService.timer = setInterval(function () {
+            var m = parseInt(questionService.seconds / 60);
+            var s = questionService.seconds % 60;
             var time = (m < 1 ? '0' + m : m + '') + ':' + (s < 10 ? '0' + s : s + '');
             $('#exam-timer').text(time);
-            seconds--;
-            if (seconds === 0) {
-                clearInterval(x);
+            questionService.seconds--;
+            if (questionService.seconds <= 0) {
+                clearInterval(questionService.timer);
                 $('#exam-timer').text('00:00');
+                questionService.seconds = 0;
             }
         }, 1000);
     },
@@ -431,7 +436,7 @@ var questionService = {
         });
         //window.history.forward();
         //window.onunload = function () { null };
-        //window.onbeforeunload = function () { return "Your work will be lost."; };
+        window.onbeforeunload = function () { return "Your work will be lost."; };
     },
 
     submitAnswer: function (index) {
@@ -472,5 +477,66 @@ var questionService = {
                 console.log("Error: " + exception + ", Status: " + status);
             }
         });
+    },
+
+    changeTestStatus: function (status) {
+        var examStatus = {
+            Id: parseInt($('#exam-status-id').val()),
+            ExamId: parseInt($('#exam-id').val()),
+            ExamineeId: parseInt($('#examinee-id').val()),
+            Status: status
+        };
+
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/status",
+            data: JSON.stringify(examStatus),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    $('#exam-status-id').val(result.Id);
+                    if (status === 1) {
+                        questionService.getAnswerDetails();
+                        questionService.preventExamLeave();
+                    } else if (status === 2) {
+                        clearInterval(questionService.timer);
+                        $('#exam-timer').text('00:00');
+                        questionService.seconds = 0;
+                        $('#questions-container').hide();
+                        $('#complete-btn').hide();
+                        alert('TEST completed successfully, you can leave this page now. You will be contacted by the invigilator later!');
+                    } else if (status === -1) {
+                        alert('Illegal activity detected, you are disqualified for the exam. Better luck next time.');
+                    }
+                } else {
+                    alert('Error while starting TEST, please contact invigilator!');
+                }
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    },
+
+    completeTest: function () {
+        if (confirm('Are you sure, you want to complete the TEST?')) {
+            questionService.changeTestStatus(2);
+        }
+    },
+
+    toggleFullScreen: function () {
+        var elem = document.getElementById('exam-dom');
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem = window.top.document.body; //To break out of frame in IE
+            elem.msRequestFullscreen();
+        }
     }
 };

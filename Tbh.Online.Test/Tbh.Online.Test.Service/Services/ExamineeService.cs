@@ -23,6 +23,7 @@ namespace Tbh.Online.Test.Service.Services
                 cfg.CreateMap<AppExaminee, Examinee>();
                 cfg.CreateMap<AppAnswer, Answer>();
                 cfg.CreateMap<Exam, AppExam>();
+                cfg.CreateMap<AppExamStatus, ExamStatu>();
             });
         }
         public CrudResult Add(AppExaminee examinee)

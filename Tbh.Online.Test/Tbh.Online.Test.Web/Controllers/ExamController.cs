@@ -34,7 +34,7 @@ namespace Tbh.Online.Test.Web.Controllers
             return Ok(data);
         }
 
-        [HttpPost("complete")]
+        [HttpPost("status")]
         public ActionResult<CrudResult> Complete(AppExamStatus examStatus)
         {
             var data = _examineeService.CompleteTest(examStatus);

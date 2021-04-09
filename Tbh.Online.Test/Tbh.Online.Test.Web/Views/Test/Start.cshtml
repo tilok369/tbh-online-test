@@ -2,6 +2,8 @@
     <div class="col-lg-8 col-md-8 col-sm-12 offset-lg-2 offset-md-2">
         <div class="card">
             <div class="card-body bg-light">
+                @*<button onclick="questionService.toggleFullScreen()" class="btn btn-warning text-dark mt-2 mb-5 fullscreen-btn">ENTER FULL SCREEN</button>*@
+                <input type="hidden" id="exam-status-id" value="0" />
                 <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
                 <input type="hidden" id="examinee-id" value="@ViewBag.ExamineeId" />
                 <h4 class="card-title"><i class="fa fa-keyboard"></i><strong id="title"></strong></h4>
@@ -12,7 +14,7 @@
                 <span id="exam-timer" class="badge bg-danger p-2 text-white font timer-label-2">00:00</span>
                 <h5 class="mt-4">Questions</h5>
                 <div id="questions-container"></div>
-                <button onclick="questionService.completeTest()" class="btn btn-info btn-block text-white mt-2 mb-5">COMPLETE TEST</button>
+                <button id="complete-btn" onclick="questionService.completeTest()" class="btn btn-info btn-block text-white mt-2 mb-5">COMPLETE TEST</button>
             </div>
         </div>
     </div>
@@ -20,8 +22,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        questionService.getAnswerDetails();
-        //setTimeout(function () { questionService.preventExamLeave(); }, 2000);     
-        //questionService.preventExamLeave();
+        questionService.changeTestStatus(1);
     });
 </script>

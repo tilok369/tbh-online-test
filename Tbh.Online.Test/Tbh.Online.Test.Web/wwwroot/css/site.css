@@ -93,3 +93,10 @@ textarea.answer-area {
     left: 87%;
     top: 10%;
 }
+
+.fullscreen-btn {
+    position: fixed;
+    z-index: 2000;
+    left: 10%;
+    top: 10%;
+}
