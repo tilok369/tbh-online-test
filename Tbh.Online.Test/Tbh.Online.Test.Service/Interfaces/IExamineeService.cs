@@ -8,5 +8,7 @@ namespace Tbh.Online.Test.Service.Interfaces
     public interface IExamineeService
     {
         CrudResult Add(AppExaminee examinee);
+        CrudResult SubmitAnswer(AppAnswer answer);
+        CrudResult CompleteTest(AppExamStatus examStatus);
     }
 }

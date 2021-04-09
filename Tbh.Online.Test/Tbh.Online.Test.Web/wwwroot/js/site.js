@@ -327,7 +327,7 @@ var questionService = {
             dataType: "json",
             success: function (result) {
                 questionService.renderExamsData(result);
-                questionService.startTimer(parseInt(result.Exam.Duration));
+                //questionService.startTimer(parseInt(result.Exam.Duration));
             },
             error: function (xhr, status, exception) {
                 console.log(xhr);
@@ -343,7 +343,7 @@ var questionService = {
         $.each(data.Questions, function (i, value) {
             var index = i + 1;
             html += '<ul id="answer-group-' + index + '" class="list-group list-group-flush">' +
-                '<li id = "question-text-' + index + '" data - id="' + value.Id + '" class="list-group-item" > ' + index + ') ' + value.Text + '</li>' +
+                '<li id ="question-text-' + index + '" data-id="' + value.Id + '" data-answer-id="0" class="list-group-item" > ' + index + ') ' + value.Text + '</li>' +
                 (value.TypeId < 4
                 ?
                 ('<li style="font-family: monospace;" class="list-group-item">' +
@@ -352,11 +352,17 @@ var questionService = {
                 :
                 questionService.formatCheckboxQuestions(value.SubText, index)
                 ) +
+                (
+                    value.TypeId < 4
+                ?
                 '<li class="list-group-item">' +
                 '<textarea id="q-answer-' + index + '" class="answer-area"></textarea>' +
-                '</li>' +
+                '</li>'
+                :
+                ''
+                ) +
                 '<li class="list-group-item">' +
-                '<button onclick="questionService.submitAnswer(' + data.Exam.Id +', ' + value.Id +')" class="btn btn-success text-white mt-2 mb-5">SUBMIT</button>' +
+                '<button onclick="questionService.submitAnswer(' + index + ')" class="btn btn-success text-white mt-2 mb-5">SUBMIT</button>' +
                 '</li>' +
             '</ul>';
         });
@@ -368,10 +374,11 @@ var questionService = {
         var html = '<li class="list-group-item">';
         var options = text.split('|');
         $.each(options, function (index, value) {
-            html += '<div class="form-check">' +
-                    '<input class="form-check-input" type="radio" name="q-option-' + i + '" id="q-option-' + i + '">' +
+            var opt = index === 0 ? 'A' : index === 1 ? 'B' : index === 2 ? 'C' : index === 3 ? 'D' : index === 4 ? 'E' : 'F';
+            html += '<div id="mcq-container-' + i + '" class="form-check">' +
+                '<input class="form-check-input" type="radio" name="q-option-' + i + '" value="' + opt + '" id="q-option-' + i + '">' +
                     '<label class="form-check-label" for="q-option-' + i + '">' +
-                    value.replace('[*]', '') +
+                    opt + ': ' + value.replace('[*]', '') +
                     '</label>' +
                 '</div>';
         });
@@ -407,4 +414,43 @@ var questionService = {
         //window.onbeforeunload = function () { return "Your work will be lost."; };
     },
 
+    submitAnswer: function (index) {
+        var text = $('#mcq-container-' + index).length > 0
+            ? $('input[name="q-option-' + index + '"]:checked').val()
+            : $('#q-answer-' + index).val(); 
+        if (!text) {
+            alert('Please write your answer first before submitting');
+            return;
+        }
+        var answer = {
+            Id: parseInt($('#question-text-' + index).attr('data-answer-id')),
+            ExamId: 3,//parseInt($('#exam-id').val()),
+            ExamineeId: parseInt($('#examinee-id').val()),
+            QuestionId: parseInt($('#question-text-' + index).attr('data-id')),
+            Text: text,
+            Point: 0.0
+        };
+
+        console.log(answer);
+
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/answer",
+            data: JSON.stringify(answer),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    $('#question-text-' + index).attr('data-answer-id', result.Id);
+                    alert('Answer submitted!');
+                } else {
+                    alert('Error while submitting answer, please try again or contact invigilator');
+                }
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    }
 };

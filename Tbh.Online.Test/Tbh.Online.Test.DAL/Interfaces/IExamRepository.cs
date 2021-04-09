@@ -6,6 +6,6 @@ namespace Tbh.Online.Test.DAL.Interfaces
 {
     public class IExamRepository
     {
-
+        
     }
 }
