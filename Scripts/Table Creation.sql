@@ -118,4 +118,4 @@ select * from [dbo].[Question]
 select * from [dbo].[Examinee]
 select * from [dbo].[Answer]
 
---update [dbo].[Exam] set ExameCode = 'B4D6548B676349CDA82880' where Id = 3
+--update [dbo].[Exam] set ExameCode = 'B4D6548B676349CDA8990' where Id = 5

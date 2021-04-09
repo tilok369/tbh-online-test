@@ -292,6 +292,14 @@ var questionService = {
         if (!questionService.examineeSaveValidation()) {
             return;
         }
+        if (!$('#exam-id').val()) {
+            alert('Invalid TEST URL! You cannot proceed to test.');
+            return;
+        }
+        if (!$('#exam-status').val()) {
+            alert('This TEST is not activated yet! You cannot proceed to test.');
+            return;
+        }
 
         if (confirm('Are you sure you want to start the TEST? Once you start it, you cannot cancel or restart the TEST')) {
 
@@ -309,7 +317,7 @@ var questionService = {
                 dataType: "json",
                 success: function (result) {
                     if (result.Success) {
-                        window.location = questionService.getRootUrl() + '/Test/Start?examineeId=' + result.Id;
+                        window.location = questionService.getRootUrl() + '/Test/Start?ec=' + $('#ec').val() + '&examineeId=' + result.Id;
                     } else {
                         alert('Error while starting exam, please contact administrator');
                     }
@@ -324,12 +332,20 @@ var questionService = {
     },
 
     getAnswerDetails: function () {
+        if (!$('#exam-id').val()) {
+            $('#title').html('&nbsp; <strong style="color: red;">Invalid TEST URL!</strong>');
+            return;
+        }
         $.ajax({
             type: "GET",
-            url: questionService.getRootUrl() + "/api/v1.0/Question?examId=3",// + $('#exam-id').val(),
+            url: questionService.getRootUrl() + "/api/v1.0/Question?examId=" + $('#exam-id').val(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
+                if (!result.Exam.Status) {
+                    $('#title').html('&nbsp; <strong style="color: red;">This TEST is not activated yet. Please try again later!</strong>');
+                    return;
+                }
                 questionService.renderExamsData(result);
                 //questionService.startTimer(parseInt(result.Exam.Duration));
             },

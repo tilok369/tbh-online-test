@@ -2,22 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tbh.Online.Test.DAL.Interfaces;
 using Tbh.Online.Test.DAL.Models;
+using Tbh.Online.Test.DAL.Repositories;
 using Tbh.Online.Test.Model.App;
 using Tbh.Online.Test.Service.Interfaces;
 
 namespace Tbh.Online.Test.Service.Services
 {
+
     public class ExamineeService : GenericCrudService, IExamineeService
     {
-        private string _connectionString;
+        private IExamRepository _examRepository;
         private readonly MapperConfiguration _config;
         public ExamineeService(string connectionString):base(connectionString)
         {
+            _examRepository = new ExamRepository(connectionString);
             _config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AppExaminee, Examinee>();
                 cfg.CreateMap<AppAnswer, Answer>();
+                cfg.CreateMap<Exam, AppExam>();
             });
         }
         public CrudResult Add(AppExaminee examinee)
@@ -59,6 +64,13 @@ namespace Tbh.Online.Test.Service.Services
             var result = dbExamStatus.Id == 0 ? Add<ExamStatu>(dbExamStatus) : Edit<ExamStatu>(dbExamStatus);
 
             return new CrudResult(result.Success, result.Message, result.Success ? ((ExamStatu)result.Entity).Id : 0);
+        }
+
+        public AppExam GetExamByCode(string code)
+        {
+            var mapper = _config.CreateMapper();
+            var exam = mapper.Map<Exam, AppExam>(_examRepository.GetExamByCode(code));
+            return exam;
         }
     }
 }
