@@ -81,10 +81,20 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   Name = examinee.Name,
                                   Phone = examinee.Phone,
                                   Email = examinee.Email,
-                                  Status =stat.Status
+                                  Status =stat.Status,
+                                  TotalMarks = stat.TotalMarks,
+                                  ObtainedMarks = stat.ObtainedMarks
                               }).ToList();
 
                 return result;
+            }
+        }
+
+        public ExamStatu GetExamStatus(int examId, int examineeId)
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                return context.ExamStatus.FirstOrDefault(e => e.ExamId == examId && e.ExamineeId == examineeId);
             }
         }
     }

@@ -54,5 +54,12 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _examineeService.GetAnswerDetailsByExaminee(examId, examineeId);
             return Ok(data);
         }
+
+        [HttpPost("assess")]
+        public ActionResult<CrudResult> SubmitPoint(List<AppAssessDetails> assessDetails)
+        {
+            var data = _examineeService.SubmitPoint(assessDetails);
+            return Ok(data);
+        }
     }
 }

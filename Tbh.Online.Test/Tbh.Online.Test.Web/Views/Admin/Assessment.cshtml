@@ -5,6 +5,7 @@
                 <h4 class="text-white">Exam Assessment</h4>
                 <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
                 <input type="hidden" id="examinee-id" value="@ViewBag.ExamineeId" />
+                <input type="hidden" id="assessed-by" value="@User.Identity.Name" />
                 <div class="mb-3">
                     <label for="title" class="form-label text-white">Exam Title</label>
                     <input type="text" disabled class="form-control" id="title" name="title" aria-describedby="titleHelp">

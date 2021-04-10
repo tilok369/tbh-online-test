@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Tbh.Online.Test.DAL.DataModels;
 using Tbh.Online.Test.DAL.Interfaces;
@@ -89,6 +90,31 @@ namespace Tbh.Online.Test.Service.Services
             var mapper = _config.CreateMapper();
             var details = mapper.Map<List<AnswerDetails>, List<AppAnswerDetails>>(_examRepository.GetAnswerDetailsByExaminee(examId, examineeId));
             return details; ;
+        }
+
+        public CrudResult SubmitPoint(List<AppAssessDetails> assessDetails)
+        {
+            if(!assessDetails.Any())
+                return new CrudResult(false, "No assessment to save");
+            foreach (var i in assessDetails)
+            {
+                var item = Get<Answer>(i.Id);
+                if (item == null) return new CrudResult(false, "Error");
+                item.AssessedBy = i.AssessedBy;
+                item.Point = i.Point;
+                var result = Edit<Answer>(item);
+                if (!result.Success) return new CrudResult(result.Success, result.Message);
+            }
+
+            var examStat = _examRepository.GetExamStatus(assessDetails[0].ExamId, assessDetails[0].ExamineeId);
+            if(examStat == null)
+                return new CrudResult(false, "Error");
+
+            examStat.TotalMarks = assessDetails.Sum(a => a.ActualPoint);
+            examStat.ObtainedMarks = assessDetails.Sum(a => a.Point);
+            var resultStat = Edit<ExamStatu>(examStat);
+
+            return new CrudResult(resultStat.Success, resultStat.Message);
         }
     }
 }

@@ -575,6 +575,8 @@ var questionService = {
                 '<td>' + value.Name + '</td>' +
                 '<td>' + value.Email + '</td>' +
                 '<td>' + value.Phone + '</td>' +
+                '<td>' + value.TotalMarks + '</td>' +
+                '<td>' + value.ObtainedMarks + '</td>' +
                 '<td>' + (value.Status == 1 ? 'Attended' : value.Status == 2 ? 'Completed' : 'Disqualified') + '</td>' +
                 '<td>' +
                 '<a href="javascript:void(0)"><i class="fa fa-chalkboard-teacher text-info" title="Answer Details" onclick="questionService.viewAnswers(' + value.ExamId + ', ' + value.ExamineeId + ')"></i></a>' +
@@ -656,4 +658,59 @@ var questionService = {
 
         $('#questions-container').html(html);
     },
+
+    validateAssessment: function () {
+        var validate = true;
+        $("ul[id^=question-group-]").each(function (i) {
+            var index = i + 1;
+            if (isNaN($('#answer-mark-' + index).val()) ||
+                parseFloat($('#answer-mark-' + index).val()) > parseFloat($('#question-mark-' + index).val()))
+                validate = false;
+        });
+        return validate;
+    },
+
+    formatAssessmentJson: function () {
+        var json = [];
+        $("ul[id^=question-group-]").each(function (i) {
+            var index = i + 1;
+            var item = {
+                Id: parseInt($('#question-group-' + index).attr('data-id')),
+                Point: parseFloat($('#answer-mark-' + index).val()),
+                ActualPoint: parseFloat($('#question-mark-' + index).val()),
+                AssessedBy: $('#assessed-by').val(),
+                ExamId: parseInt($('#exam-id').val()),
+                ExamineeId: parseInt($('#examinee-id').val())
+            }
+            json.push(item);
+        });
+        return json;
+    },
+
+    assessQuestions: function () {
+        if (!questionService.validateAssessment()) {
+            alert('One more marking have invalid value, please check again');
+            return;
+        }
+        var assessJosn = questionService.formatAssessmentJson();
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/assess",
+            data: JSON.stringify(assessJosn),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    alert('Assessment set saved successfully');
+                    window.location = questionService.getRootUrl() + '/Admin/Examinees?examId=' + $('#exam-id').val();
+                } else {
+                    alert('Error while saving assessment, please contact administrator');
+                }
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    }
 };
