@@ -11,5 +11,7 @@ namespace Tbh.Online.Test.Service.Interfaces
         CrudResult SubmitAnswer(AppAnswer answer);
         CrudResult CompleteTest(AppExamStatus examStatus);
         AppExam GetExamByCode(string code);
+        List<AppExamineeDetails> GetExamineeDetails(int examId);
+        List<AppAnswerDetails> GetAnswerDetailsByExaminee(int examId, int examineeId);
     }
 }

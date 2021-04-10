@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tbh.Online.Test.DAL.DataModels;
 using Tbh.Online.Test.DAL.Interfaces;
 using Tbh.Online.Test.DAL.Models;
 using Tbh.Online.Test.DAL.Repositories;
@@ -24,6 +25,8 @@ namespace Tbh.Online.Test.Service.Services
                 cfg.CreateMap<AppAnswer, Answer>();
                 cfg.CreateMap<Exam, AppExam>();
                 cfg.CreateMap<AppExamStatus, ExamStatu>();
+                cfg.CreateMap<ExamineeDetails, AppExamineeDetails>();
+                cfg.CreateMap<AnswerDetails, AppAnswerDetails>();
             });
         }
         public CrudResult Add(AppExaminee examinee)
@@ -72,6 +75,20 @@ namespace Tbh.Online.Test.Service.Services
             var mapper = _config.CreateMapper();
             var exam = mapper.Map<Exam, AppExam>(_examRepository.GetExamByCode(code));
             return exam;
+        }
+
+        public List<AppExamineeDetails> GetExamineeDetails(int examId)
+        {
+            var mapper = _config.CreateMapper();
+            var details = mapper.Map<List<ExamineeDetails>, List<AppExamineeDetails>>(_examRepository.GetExamStatus(examId));
+            return details;
+        }
+
+        public List<AppAnswerDetails> GetAnswerDetailsByExaminee(int examId, int examineeId)
+        {
+            var mapper = _config.CreateMapper();
+            var details = mapper.Map<List<AnswerDetails>, List<AppAnswerDetails>>(_examRepository.GetAnswerDetailsByExaminee(examId, examineeId));
+            return details; ;
         }
     }
 }

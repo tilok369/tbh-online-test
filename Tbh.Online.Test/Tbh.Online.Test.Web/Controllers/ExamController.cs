@@ -40,5 +40,19 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _examineeService.CompleteTest(examStatus);
             return Ok(data);
         }
+
+        [HttpGet("examinee")]
+        public ActionResult<List<AppExamineeDetails>> ExamineeDetails(int examId)
+        {
+            var data = _examineeService.GetExamineeDetails(examId);
+            return Ok(data);
+        }
+
+        [HttpGet("answer")]
+        public ActionResult<List<AppAnswerDetails>> AnswerDetails(int examId, int examineeId)
+        {
+            var data = _examineeService.GetAnswerDetailsByExaminee(examId, examineeId);
+            return Ok(data);
+        }
     }
 }

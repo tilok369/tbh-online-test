@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tbh.Online.Test.DAL.DataModels;
 using Tbh.Online.Test.DAL.Interfaces;
 using Tbh.Online.Test.DAL.Models;
 
@@ -19,11 +20,63 @@ namespace Tbh.Online.Test.DAL.Repositories
             _dbContextOptionBuilder.UseSqlServer(connectionString);
         }
 
+        public List<AnswerDetails> GetAnswerDetailsByExaminee(int examId, int examineeId)
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                var result = (from exam in context.Exams
+                              join qus in context.Questions
+                              on exam.Id equals qus.ExamId
+                              join answer in context.Answers
+                              on qus.Id equals answer.QuestionId
+                              where exam.Id == examId && answer.ExamineeId == examineeId
+                              select new AnswerDetails
+                              {
+                                  ExamId = exam.Id,
+                                  ExamineeId =answer.ExamineeId,
+                                  AnswerId = answer.Id,
+                                  Text = qus.Text,
+                                  SubText = qus.SubText,
+                                  Point = qus.Point,
+                                  TypeId = qus.TypeId,
+                                  AnswerText = answer.Text,
+                                  AnswerPoint = answer.Point
+                              }).ToList();
+
+                return result;
+            }
+        }
+
         public Exam GetExamByCode(string code)
         {
             using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
             {
                 return context.Exams.FirstOrDefault(e => e.ExameCode.Equals(code));
+            }
+        }
+
+        public List<ExamineeDetails> GetExamStatus(int examId)
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                var result = (from exam in context.Exams
+                              join stat in context.ExamStatus
+                              on exam.Id equals stat.ExamId
+                              join examinee in context.Examinees
+                              on stat.ExamineeId equals examinee.Id
+                              where exam.Id == examId
+                              select new ExamineeDetails
+                              {
+                                  ExamId = exam.Id,
+                                  ExamineeId = examinee.Id,
+                                  ExamStatusId = stat.Id,
+                                  Title = exam.Title,
+                                  Name = examinee.Name,
+                                  Phone =examinee.Phone,
+                                  Status =stat.Status
+                              }).ToList();
+
+                return result;
             }
         }
     }

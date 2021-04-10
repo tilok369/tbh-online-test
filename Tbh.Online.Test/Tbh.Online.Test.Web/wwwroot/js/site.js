@@ -194,7 +194,10 @@ var questionService = {
                 '<td>' + value.Duration + '</td>' +
                 '<td>' + (value.Status ? 'Active' : 'Inactive') + '</td>' +
                 '<td>' +
-                    '<a href="javascript:void(0)"><i class="fa fa-list" title="View Details" onclick="questionService.viewDetails(' + value.Id + ')"></i></a>' +
+                    '<a href="javascript:void(0)"><i class="fa fa-list text-info" title="View Details" onclick="questionService.viewDetails(' + value.Id + ')"></i></a>' +
+                '</td>' +
+                '<td>' +
+                '<a href="javascript:void(0)"><i class="fa fa-graduation-cap text-danger" title="View Result" onclick="questionService.viewResult(' + value.Id + ')"></i></a>' +
                 '</td>' +
              '</tr >');
         });
