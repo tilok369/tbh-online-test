@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Tbh.Online.Test.Service.Interfaces;
 
 namespace Tbh.Online.Test.Web.Controllers
 {
+
     public class AccountController : Controller
     {
+        private readonly IUserService _userService;
+        public AccountController(IUserService userService)
+        {
+            _userService = userService;
+        }
         public IActionResult Login()
         {
             return View();
@@ -26,13 +33,13 @@ namespace Tbh.Online.Test.Web.Controllers
 
             //Check the user name and password  
             //Here can be implemented checking logic from the database  
+            var user = _userService.Get(email, password);
 
-            if (email == "admin@onlinetest.com" && password == "password")
+            if (user != null)
             {
-
                 //Create the identity for the user  
                 var identity = new ClaimsIdentity(new[] {
-                    new Claim(ClaimTypes.Name, email)
+                    new Claim(ClaimTypes.Name, user.Email)
                 }, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 var principal = new ClaimsPrincipal(identity);

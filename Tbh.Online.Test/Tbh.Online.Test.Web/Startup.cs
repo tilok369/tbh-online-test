@@ -56,6 +56,7 @@ namespace Tbh.Online.Test.Web
                 config.AssumeDefaultVersionWhenUnspecified = true;
             });
 
+            services.AddScoped<IUserService>(s => new UserService(Configuration.GetConnectionString("OnlineTestDB")));
             services.AddScoped<IQuestionService>(s => new QuestionService(Configuration.GetConnectionString("OnlineTestDB")));
             services.AddScoped<IExamineeService>(s => new ExamineeService(Configuration.GetConnectionString("OnlineTestDB")));
         }

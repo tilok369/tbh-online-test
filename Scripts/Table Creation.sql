@@ -122,5 +122,10 @@ select * from [dbo].[Question]
 select * from [dbo].[Examinee]
 select * from [dbo].[Answer]
 select * from [dbo].[ExamStatus]
+select * from [dbo].[User]
+select * from [dbo].[Role]
 
 --update [dbo].[Exam] set ExameCode = 'B4D6548B676349CDA8990' where Id = 5
+--insert into [dbo].[Role] values ('Admin', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--insert into [dbo].[Role] values ('Invigilator', 1, 2, GETDATE(), 'System', GETDATE(), 'System')
+--insert into [dbo].[User] values ('tanjeer.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')

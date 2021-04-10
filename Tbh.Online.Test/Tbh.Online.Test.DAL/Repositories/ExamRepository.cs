@@ -84,7 +84,7 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   Status =stat.Status,
                                   TotalMarks = stat.TotalMarks,
                                   ObtainedMarks = stat.ObtainedMarks
-                              }).ToList();
+                              }).OrderByDescending(t=>t.ObtainedMarks).ToList();
 
                 return result;
             }
