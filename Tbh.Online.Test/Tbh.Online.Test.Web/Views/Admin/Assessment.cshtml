@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-12 offset-lg-1 offset-md-1">
+        <div class="card">
+            <div class="card-body bg-dark">
+                <h4 class="text-white">Exam Assessment</h4>
+                <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
+                <input type="hidden" id="examinee-id" value="@ViewBag.ExamineeId" />
+                <div class="mb-3">
+                    <label for="title" class="form-label text-white">Exam Title</label>
+                    <input type="text" disabled class="form-control" id="title" name="title" aria-describedby="titleHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="form-label text-white">Duration</label>
+                    <select id="duration" disabled name="duration" class="form-control" aria-label="Default select example">
+                        <option value="30">30 Minutes</option>
+                        <option value="60">60 Minutes</option>
+                        <option value="90">90 Minutes</option>
+                        <option value="120">120 Minutes</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label text-white">Examinee Name</label>
+                    <input type="text" disabled class="form-control" id="name" name="name" aria-describedby="titleHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-white">Examinee Email</label>
+                    <input type="email" disabled class="form-control" id="email" name="email" aria-describedby="titleHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label text-white">Examinee Phone</label>
+                    <input type="tel" disabled class="form-control" id="phone" name="phone" aria-describedby="titleHelp">
+                </div>
+
+                <h5 id="questions" class="mt-4 text-white">Questions/Answers</h5>
+                <div id="questions-container"></div>
+                <button type="button" onclick="questionService.assessQuestions()" class="btn btn-info float-right mt-2">Save Assessment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        questionService.getQuestionAnswerDetails();
+    });
+</script>

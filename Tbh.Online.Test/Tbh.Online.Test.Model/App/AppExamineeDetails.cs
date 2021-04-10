@@ -12,6 +12,7 @@ namespace Tbh.Online.Test.Model.App
         public string Title { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
+        public string Email { get; set; }
         public int Status { get; set; }
     }
 }

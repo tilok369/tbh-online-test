@@ -26,8 +26,16 @@ namespace Tbh.Online.Test.Web.Controllers
             return View();
         }
 
-        public IActionResult Assessment()
+        public IActionResult Assessment(int examId, int examineeId)
         {
+            ViewBag.ExamId = examId;
+            ViewBag.ExamineeId = examineeId;
+            return View();
+        }
+
+        public IActionResult Examinees(int examId)
+        {
+            ViewBag.ExamId = examId;
             return View();
         }
     }

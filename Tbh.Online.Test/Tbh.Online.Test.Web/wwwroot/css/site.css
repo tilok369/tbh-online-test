@@ -100,3 +100,9 @@ textarea.answer-area {
     left: 10%;
     top: 10%;
 }
+
+.point-text {
+    float: right;
+    font-weight: bold;
+    font-size: 17px;
+}

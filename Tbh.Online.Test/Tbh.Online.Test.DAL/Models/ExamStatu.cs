@@ -15,6 +15,8 @@ namespace Tbh.Online.Test.DAL.Models
         public string CreatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
+        public double ObtainedMarks { get; set; }
+        public double TotalMarks { get; set; }
 
         public virtual Exam Exam { get; set; }
         public virtual Examinee Examinee { get; set; }

@@ -42,6 +42,8 @@ namespace Tbh.Online.Test.DAL.Models
             {
                 entity.ToTable("Answer");
 
+                entity.Property(e => e.AssessedBy).HasMaxLength(50);
+
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(50);

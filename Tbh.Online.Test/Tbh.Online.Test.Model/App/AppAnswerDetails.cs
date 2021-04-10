@@ -15,5 +15,10 @@ namespace Tbh.Online.Test.Model.App
         public int TypeId { get; set; }
         public string AnswerText { get; set; }
         public double? AnswerPoint { get; set; }
+        public string ExamineeName { get; set; }
+        public string ExamineeEmail { get; set; }
+        public string ExamineePhone { get; set; }
+        public int Duration { get; set; }
+        public string Title { get; set; }
     }
 }

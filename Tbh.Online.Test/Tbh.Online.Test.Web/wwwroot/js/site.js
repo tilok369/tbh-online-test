@@ -197,7 +197,7 @@ var questionService = {
                     '<a href="javascript:void(0)"><i class="fa fa-list text-info" title="View Details" onclick="questionService.viewDetails(' + value.Id + ')"></i></a>' +
                 '</td>' +
                 '<td>' +
-                '<a href="javascript:void(0)"><i class="fa fa-graduation-cap text-danger" title="View Result" onclick="questionService.viewResult(' + value.Id + ')"></i></a>' +
+                '<a href="javascript:void(0)"><i class="fa fa-graduation-cap text-danger" title="View Result" onclick="questionService.viewExaminees(' + value.Id + ')"></i></a>' +
                 '</td>' +
              '</tr >');
         });
@@ -205,6 +205,10 @@ var questionService = {
 
     viewDetails: function (id) {
         window.location = questionService.getRootUrl() + '/Admin/QuestionView?examId=' + id;
+    },
+
+    viewExaminees: function (id) {
+        window.location = questionService.getRootUrl() + '/Admin/Examinees?examId=' + id;
     },
 
     getQuestionDetails: function () {
@@ -269,7 +273,7 @@ var questionService = {
                 '<li class="list-group-item">' +
                 '<div id="question-add-btn-' + index + '" ' + (data.Questions.length > index ? 'style="display: none;"' : '') + ' class="float-right">Add new <i style="cursor: pointer;" onclick="questionService.addQuestionGroup(' + (index + 1) + ')" class="fa fa-plus-circle text-success"></i></div>' +
                 '</li>' +
-                '</ul>';
+                '</ul><br/>';
 
             //console.log(html);
         });
@@ -367,10 +371,11 @@ var questionService = {
         $('#title').html('&nbsp;' + data.Exam.Title);
         $('#exam-duration').text(data.Exam.Duration + ' Minutes')
         var html = '';
+        console.log(data);
         $.each(data.Questions, function (i, value) {
             var index = i + 1;
             html += '<ul id="answer-group-' + index + '" class="list-group list-group-flush">' +
-                '<li id ="question-text-' + index + '" data-id="' + value.Id + '" data-answer-id="0" class="list-group-item" > ' + index + ') ' + value.Text + '</li>' +
+                '<li id ="question-text-' + index + '" data-id="' + value.Id + '" data-answer-id="0" class="list-group-item" > ' + index + ') ' + value.Text + '<label class="text-danger point-text">' + value.Point + '</label></li>' +
                 (value.TypeId < 4
                 ?
                 ('<li style="font-family: monospace;" class="list-group-item">' +
@@ -391,7 +396,7 @@ var questionService = {
                 '<li class="list-group-item">' +
                 '<button onclick="questionService.submitAnswer(' + index + ')" class="btn btn-success text-white mt-2 mb-5">SUBMIT</button>' +
                 '</li>' +
-            '</ul>';
+            '</ul><br/>';
         });
 
         $('#questions-container').html(html);
@@ -541,5 +546,114 @@ var questionService = {
             elem = window.top.document.body; //To break out of frame in IE
             elem.msRequestFullscreen();
         }
-    }
+    },
+
+    getExaminees: function () {
+        $.ajax({
+            type: "GET",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/examinee?examId=" + $('#exam-id').val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                questionService.renderExamineesData(result);
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    },
+
+    renderExamineesData: function (data) {
+        if (data.length > 0) {
+            $('#exam-title').html('Examinees for <strong class="text-primary">' + data[0].Title + '<strong>');
+        }
+        $.each(data, function (index, value) {
+            $('table#examinee-table tbody').append('<tr>' +
+                '<td>' + (index + 1) + '</td>' +
+                '<td>' + value.Title + '</td>' +
+                '<td>' + value.Name + '</td>' +
+                '<td>' + value.Email + '</td>' +
+                '<td>' + value.Phone + '</td>' +
+                '<td>' + (value.Status == 1 ? 'Attended' : value.Status == 2 ? 'Completed' : 'Disqualified') + '</td>' +
+                '<td>' +
+                '<a href="javascript:void(0)"><i class="fa fa-chalkboard-teacher text-info" title="Answer Details" onclick="questionService.viewAnswers(' + value.ExamId + ', ' + value.ExamineeId + ')"></i></a>' +
+                '</td>' +
+                '</tr >');
+        });
+    },
+
+    viewAnswers: function (examId, examineeId) {
+        window.location = questionService.getRootUrl() + '/Admin/Assessment?examId=' + examId + '&examineeId=' + examineeId;
+    },
+
+    getQuestionAnswerDetails: function () {
+        $.ajax({
+            type: "GET",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/answer?examId=" + $('#exam-id').val() + "&examineeId=" + + $('#examinee-id').val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                questionService.renderQuestionsAnswerData(result);
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    },
+
+    renderQuestionsAnswerData: function (data) {
+        //console.log(data);        
+        if (data.length > 0) {
+            $('#title').val(data[0].Title);
+            $('#duration').val(data[0].Duration);
+            $('#name').val(data[0].ExamineeName);
+            $('#email').val(data[0].ExamineeEmail);
+            $('#phone').val(data[0].ExamineePhone);
+        }
+        var html = '';
+        $.each(data, function (i, value) {
+            var index = i + 1;
+            html += '<ul id = "question-group-' + index + '"  data-id="' + value.AnswerId + '" class= "list-group list-group-flush" >' +
+                '<li class="list-group-item">' +
+                '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
+                '<select disabled id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
+                '<option value="1" ' + (value.TypeId == 1 ? 'selected="selected"' : '') + '>Explanation</option>' +
+                '<option value="2" ' + (value.TypeId == 2 ? 'selected="selected"' : '') + '>Coding Output</option>' +
+                '<option value="3" ' + (value.TypeId == 3 ? 'selected="selected"' : '') + '>Code Writing</option>' +
+                '<option value="4" ' + (value.TypeId == 4 ? 'selected="selected"' : '') + '>MCQ</option>' +
+                '</select>' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                '<label for="question-text-' + index + '" class="form-label text-dark">Question Text</label>' +
+                '<input disabled type="text" class="form-control" id="question-text-' + index + '" value="' + value.Text + '" name="question-text">' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                '<label for="question-mark-' + index + '" class="form-label text-dark">Total Marks</label>' +
+                '<input type="number" disabled class="form-control" id="question-mark-' + index + '" value="' + value.Point + '" name="question-mark-' + index + '">' +
+                '</li>' +
+                (value.TypeId < 4
+                    ?
+                    ('<li style="font-family: monospace;" class="list-group-item">' +
+                        questionService.formatCode(value.SubText) +
+                        '</li>')
+                    :
+                    questionService.formatCheckboxQuestions(value.SubText, index)
+                ) +
+                '<li class="list-group-item">' +
+                '<label for="q-answer-' + index + '" class="form-label text-primary">Given Answer</label>' +
+                '<textarea disabled id="q-answer-' + index + '" class="answer-area">' + value.AnswerText + '</textarea>' +
+                '</li>' +
+                '<li class="list-group-item">' +
+                '<label for="answer-mark-' + index + '" class="form-label text-primary">Given Marks</label>' +
+                '<input type="number" class="form-control" id="answer-mark-' + index + '" value="' + value.AnswerPoint + '" name="question-mark-' + index + '">' +
+                '</li>' +
+                '</ul><br/>';
+
+            //console.log(html);
+        });
+
+        $('#questions-container').html(html);
+    },
 };

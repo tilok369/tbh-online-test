@@ -29,6 +29,8 @@ namespace Tbh.Online.Test.DAL.Repositories
                               on exam.Id equals qus.ExamId
                               join answer in context.Answers
                               on qus.Id equals answer.QuestionId
+                              join examinee in context.Examinees
+                              on answer.ExamineeId equals examinee.Id
                               where exam.Id == examId && answer.ExamineeId == examineeId
                               select new AnswerDetails
                               {
@@ -40,7 +42,12 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   Point = qus.Point,
                                   TypeId = qus.TypeId,
                                   AnswerText = answer.Text,
-                                  AnswerPoint = answer.Point
+                                  AnswerPoint = answer.Point,
+                                  ExamineeName = examinee.Name,
+                                  ExamineeEmail = examinee.Email,
+                                  ExamineePhone = examinee.Phone,
+                                  Title = exam.Title,
+                                  Duration = exam.Duration
                               }).ToList();
 
                 return result;
@@ -72,7 +79,8 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   ExamStatusId = stat.Id,
                                   Title = exam.Title,
                                   Name = examinee.Name,
-                                  Phone =examinee.Phone,
+                                  Phone = examinee.Phone,
+                                  Email = examinee.Email,
                                   Status =stat.Status
                               }).ToList();
 
