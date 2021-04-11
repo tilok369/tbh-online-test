@@ -38,5 +38,10 @@ namespace Tbh.Online.Test.Web.Controllers
             ViewBag.ExamId = examId;
             return View();
         }
+
+        public IActionResult Settings()
+        {
+            return View();
+        }
     }
 }

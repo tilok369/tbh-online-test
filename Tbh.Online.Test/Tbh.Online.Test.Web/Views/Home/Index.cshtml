@@ -4,10 +4,28 @@
 
 <div class="text-center">
     <div class="card">
-        <div class="card-body bg-secondary">
-            <h5 class="card-title text-white">Welcome to Online Test</h5>
-            <p class="card-text text-white">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a asp-controller="Test" asp-action="Info" class="btn btn-outline-warning text-white">Proceed to Test</a>
+        <div class="card-body bg-info">
+            <h5 class="card-title text-warning text-uppercase">Welcome to ASAI Online Test System</h5>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 offset-lg-3 offset-md-3">
+                    <p style="text-align: justify;" class="card-text text-white">
+                        <strong>ASAI Online Test System</strong> provides a tool for assessment of new candidates for different departments.
+                        One can screen candidates based on preferred skills using online tests before taking an interview.
+                    </p>
+                    <p style="text-align: justify;" class="card-text text-white mt-5 mb-5">
+                        Candidates will be provided an Online Test <strong>LINK</strong> by the respective invigilator or a Online test <strong>CODE</strong>.
+                        Please use that link to directly go to the test page or put the code in the box below and proceed to test.
+                    </p>
+                </div>
+            </div>                    
+            <input style="width: 250px; display: inline-block; padding-top: 0px;" type="text" class="form-control" id="code" name="code" aria-describedby="codeHelp" placeholder="test code">
+            <a onclick="questionService.proceedToTest()" href="javascript:void(0)" class="btn btn-outline-warning text-white">PROCEED TO TEST</a>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>

@@ -106,3 +106,8 @@ textarea.answer-area {
     font-weight: bold;
     font-size: 17px;
 }
+
+.logo {
+    width: 110px;
+    margin-right: 23px;
+}

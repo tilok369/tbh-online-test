@@ -396,6 +396,9 @@ var questionService = {
                 '<li class="list-group-item">' +
                 '<button onclick="questionService.submitAnswer(' + index + ')" class="btn btn-success text-white mt-2 mb-5">SUBMIT</button>' +
                 '</li>' +
+                '<li class="list-group-item">' +
+                '<label style="margin-top: -50px;" id="q-answer-msg-' + index + '" class="text-danger"></label>' +
+                '</li>' +
             '</ul><br/>';
         });
 
@@ -431,20 +434,24 @@ var questionService = {
                 clearInterval(questionService.timer);
                 $('#exam-timer').text('00:00');
                 questionService.seconds = 0;
+                questionService.changeTestStatus(2);
             }
         }, 1000);
     },
 
+    disqualifiyExaminee: function () { questionService.changeTestStatus(-1);},
+
+    preventOutsideClick: function (register) {
+        if (register) {
+            window.addEventListener('blur', questionService.disqualifiyExaminee);
+        } else {
+            window.removeEventListener('blur', questionService.disqualifiyExaminee);
+        }
+        
+    },
     preventExamLeave: function () {
-        $(window).blur(function (e) {
-            if (!document.hasFocus())
-                console.log('tab switched' + new Date());
-            else 
-                console.log('tab not switched' + new Date());
-        });
-        //window.history.forward();
-        //window.onunload = function () { null };
-        window.onbeforeunload = function () { return "Your work will be lost."; };
+        //questionService.preventOutsideClick(true);
+        //window.onbeforeunload = function () { return "Your work will be lost."; };
     },
 
     submitAnswer: function (index) {
@@ -452,7 +459,10 @@ var questionService = {
             ? $('input[name="q-option-' + index + '"]:checked').val()
             : $('#q-answer-' + index).val(); 
         if (!text) {
-            alert('Please write your answer first before submitting');
+            $('#q-answer-msg-' + index).text('Please write your answer first before submitting');
+            setTimeout(function () {
+                $('#q-answer-msg-' + index).text('');
+            }, 3000);
             return;
         }
         var answer = {
@@ -464,8 +474,6 @@ var questionService = {
             Point: 0.0
         };
 
-        console.log(answer);
-
         $.ajax({
             type: "POST",
             url: questionService.getRootUrl() + "/api/v1.0/Exam/answer",
@@ -475,9 +483,12 @@ var questionService = {
             success: function (result) {
                 if (result.Success) {
                     $('#question-text-' + index).attr('data-answer-id', result.Id);
-                    alert('Answer submitted!');
+                    $('#q-answer-msg-' + index).text('Answer submitted successfully!');
                 } else {
-                    alert('Error while submitting answer, please try again or contact invigilator');
+                    $('#q-answer-msg-' + index).text('Error while submitting answer, please try again or contact invigilator');
+                    setTimeout(function () {
+                        $('#q-answer-msg-' + index).text('');
+                    }, 3000);
                 }
             },
             error: function (xhr, status, exception) {
@@ -513,8 +524,13 @@ var questionService = {
                         questionService.seconds = 0;
                         $('#questions-container').hide();
                         $('#complete-btn').hide();
-                        alert('TEST completed successfully, you can leave this page now. You will be contacted by the invigilator later!');
+                        alert('TEST completed successfully or time elapsed, you can leave this page now. You will be contacted by the invigilator later!');
                     } else if (status === -1) {
+                        clearInterval(questionService.timer);
+                        $('#exam-timer').text('00:00');
+                        questionService.seconds = 0;
+                        $('#questions-container').hide();
+                        $('#complete-btn').hide();
                         alert('Illegal activity detected, you are disqualified for the exam. Better luck next time.');
                     }
                 } else {
@@ -712,5 +728,14 @@ var questionService = {
                 console.log("Error: " + exception + ", Status: " + status);
             }
         });
+    },
+
+    proceedToTest: function () {
+        if (!$('#code').val()) {
+            alert('Please provide the test code first!');
+            return;
+        }
+
+        window.location = questionService.getRootUrl() + '/Test/Info?ec=' + $('#code').val();
     }
 };
