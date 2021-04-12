@@ -286,12 +286,12 @@ var questionService = {
             alert('Please enter full name');
             return false;
         }
-        if (!$('#email').val()) {
-            alert('Please enter email address');
+        if (!$('#email').val() || $('#email').val().indexOf("@") === -1 || $('#email').val().indexOf(".") === -1) {
+            alert('Please enter valid email address');
             return false;
         }
-        if (!$('#phone').val()) {
-            alert('Please enter phone number');
+        if (!$('#phone').val() || isNaN($('#phone').val())) {
+            alert('Please enter valid phone number');
             return false;
         }
         return true;
@@ -450,7 +450,7 @@ var questionService = {
         
     },
     preventExamLeave: function () {
-        //questionService.preventOutsideClick(true);
+        questionService.preventOutsideClick(true);
         //window.onbeforeunload = function () { return "Your work will be lost."; };
     },
 
