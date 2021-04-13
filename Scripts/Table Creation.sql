@@ -129,3 +129,27 @@ select * from [dbo].[Role]
 --insert into [dbo].[Role] values ('Admin', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
 --insert into [dbo].[Role] values ('Invigilator', 1, 2, GETDATE(), 'System', GETDATE(), 'System')
 --insert into [dbo].[User] values ('tanjeer.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+
+
+--insert into [dbo].[User] 
+--values ('noman.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('tarun.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--('rahimin.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('sina.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('iqbal.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('tawhid.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('ahmed.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('mahedee.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('suman.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('emran.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('rakibul.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('gazi.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('shariful.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+
+
+--insert into [dbo].[User] 
+--values ('kashfe.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('shukla.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('ekram.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('raju.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('akhtar.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
