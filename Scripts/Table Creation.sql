@@ -113,6 +113,7 @@ alter table [dbo].[ExamStatus] add TotalMarks float not null default(0)
 
 alter table [dbo].[ExamStatus] add ObtainedMarks float not null default(0)
 alter table [dbo].[Answer] add AssessedBy nvarchar(50) null
+alter table [dbo].[Examinee] add ExamId int null
 
 
 --insert into [dbo].[QuestionType] ([Name]) values ('Explanation'), ('Coding Output'), ('Code Writing'), ('MCQ')
@@ -129,7 +130,8 @@ select * from [dbo].[Role]
 --insert into [dbo].[Role] values ('Admin', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
 --insert into [dbo].[Role] values ('Invigilator', 1, 2, GETDATE(), 'System', GETDATE(), 'System')
 --insert into [dbo].[User] values ('tanjeer.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
-
+--update [dbo].[ExamStatus] set Status = 2 where Id = 3
+--update [dbo].[ExamStatus] set Status = 1 where Id = 2
 
 --insert into [dbo].[User] 
 --values ('noman.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')

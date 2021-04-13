@@ -58,19 +58,19 @@ namespace Tbh.Online.Test.DAL.Models
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.ExamId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Answer__ExamId__1FCDBCEB");
+                    .HasConstraintName("FK__Answer__ExamId__46E78A0C");
 
                 entity.HasOne(d => d.Examinee)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.ExamineeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Answer__Examinee__1ED998B2");
+                    .HasConstraintName("FK__Answer__Examinee__45F365D3");
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.QuestionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Answer__Question__20C1E124");
+                    .HasConstraintName("FK__Answer__Question__4BAC3F29");
             });
 
             modelBuilder.Entity<Exam>(entity =>
@@ -110,13 +110,13 @@ namespace Tbh.Online.Test.DAL.Models
                     .WithMany(p => p.ExamStatus)
                     .HasForeignKey(d => d.ExamId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ExamStatu__ExamI__24927208");
+                    .HasConstraintName("FK__ExamStatu__ExamI__4AB81AF0");
 
                 entity.HasOne(d => d.Examinee)
                     .WithMany(p => p.ExamStatus)
                     .HasForeignKey(d => d.ExamineeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ExamStatu__Exami__239E4DCF");
+                    .HasConstraintName("FK__ExamStatu__Exami__49C3F6B7");
             });
 
             modelBuilder.Entity<Examinee>(entity =>
@@ -170,13 +170,13 @@ namespace Tbh.Online.Test.DAL.Models
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.ExamId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Question__ExamId__1BFD2C07");
+                    .HasConstraintName("FK__Question__ExamId__4316F928");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.TypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Question__TypeId__1B0907CE");
+                    .HasConstraintName("FK__Question__TypeId__4222D4EF");
             });
 
             modelBuilder.Entity<QuestionType>(entity =>
@@ -233,7 +233,7 @@ namespace Tbh.Online.Test.DAL.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User__RoleId__1273C1CD");
+                    .HasConstraintName("FK__User__RoleId__398D8EEE");
             });
 
             OnModelCreatingPartial(modelBuilder);

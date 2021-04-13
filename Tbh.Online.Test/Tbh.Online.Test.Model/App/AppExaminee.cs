@@ -14,5 +14,6 @@ namespace Tbh.Online.Test.Model.App
         public DateTime? UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
         public string Phone { get; set; }
+        public int? ExamId { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace Tbh.Online.Test.Web.Controllers
         }
 
         [HttpPost("examinee")]
-        public ActionResult<CrudResult> AddQuestions(AppExaminee examinee)
+        public ActionResult<CrudResult> AddExaminee(AppExaminee examinee)
         {
             var data = _examineeService.Add(examinee);
             return Ok(data);

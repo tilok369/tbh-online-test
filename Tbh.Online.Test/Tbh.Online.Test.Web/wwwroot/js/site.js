@@ -317,6 +317,7 @@ var questionService = {
                 Name: $('#name').val(),
                 Email: $('#email').val(),
                 Phone: $('#phone').val(),
+                ExamId: parseInt($('#exam-id').val())
             };
             $.ajax({
                 type: "POST",
@@ -328,7 +329,7 @@ var questionService = {
                     if (result.Success) {
                         window.location = questionService.getRootUrl() + '/Test/Start?ec=' + $('#ec').val() + '&examineeId=' + result.Id;
                     } else {
-                        alert('Error while starting exam, please contact administrator');
+                        alert(result.Message + ', please contact administrator');
                     }
                 },
                 error: function (xhr, status, exception) {
@@ -467,7 +468,7 @@ var questionService = {
         }
         var answer = {
             Id: parseInt($('#question-text-' + index).attr('data-answer-id')),
-            ExamId: 3,//parseInt($('#exam-id').val()),
+            ExamId: parseInt($('#exam-id').val()),
             ExamineeId: parseInt($('#examinee-id').val()),
             QuestionId: parseInt($('#question-text-' + index).attr('data-id')),
             Text: text,
@@ -593,7 +594,7 @@ var questionService = {
                 '<td>' + value.Phone + '</td>' +
                 '<td>' + value.TotalMarks + '</td>' +
                 '<td>' + value.ObtainedMarks + '</td>' +
-                '<td>' + (value.Status == 1 ? 'Attended' : value.Status == 2 ? 'Completed' : 'Disqualified') + '</td>' +
+                '<td class="' + (value.Status == 1 ? 'text-info' : value.Status == 2 ? 'text-success' : 'text-danger') +'">' + (value.Status == 1 ? 'Attended' : value.Status == 2 ? 'Completed' : 'Disqualified') + '</td>' +
                 '<td>' +
                 '<a href="javascript:void(0)"><i class="fa fa-chalkboard-teacher text-info" title="Answer Details" onclick="questionService.viewAnswers(' + value.ExamId + ', ' + value.ExamineeId + ')"></i></a>' +
                 '</td>' +

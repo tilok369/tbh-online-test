@@ -62,6 +62,14 @@ namespace Tbh.Online.Test.DAL.Repositories
             }
         }
 
+        public Examinee GetExamineeByExamAndEmail(int examId, string email)
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                return context.Examinees.FirstOrDefault(e => e.Email.Equals(email) && e.ExamId == examId);
+            }
+        }
+
         public List<ExamineeDetails> GetExamStatus(int examId)
         {
             using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
@@ -84,7 +92,8 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   Status =stat.Status,
                                   TotalMarks = stat.TotalMarks,
                                   ObtainedMarks = stat.ObtainedMarks
-                              }).OrderByDescending(t=>t.ObtainedMarks).ToList();
+                              }).OrderByDescending(t=>t.Status)
+                              .ThenByDescending(t=>t.ObtainedMarks).ToList();
 
                 return result;
             }

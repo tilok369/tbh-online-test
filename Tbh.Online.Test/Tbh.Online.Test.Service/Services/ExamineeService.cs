@@ -37,7 +37,10 @@ namespace Tbh.Online.Test.Service.Services
                 examinee.CreatedBy = examinee.UpdatedBy = examinee.Name;
                 examinee.CreatedOn = DateTime.Now;
                 examinee.UpdatedOn = DateTime.Now;
-            }            
+            }
+            var exmn = _examRepository.GetExamineeByExamAndEmail((int)examinee.ExamId, examinee.Email);
+            if (exmn != null) return new CrudResult(false, "You have already taken this exam and not allowed to participate again!");
+            
             var mapper = _config.CreateMapper();
             var dbExaminee = mapper.Map<AppExaminee, Examinee>(examinee);
             var result = Add<Examinee>(dbExaminee);
