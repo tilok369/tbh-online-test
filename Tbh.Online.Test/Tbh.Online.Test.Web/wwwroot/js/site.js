@@ -525,7 +525,10 @@ var questionService = {
                         questionService.seconds = 0;
                         $('#questions-container').hide();
                         $('#complete-btn').hide();
-                        alert('TEST completed successfully or time elapsed, you can leave this page now. You will be contacted by the invigilator later!');
+                        $('#complete-msg').text('TEST completed successfully or time elapsed, this test windows will be closed in 3 seconds. You will be contacted by the invigilator later!');
+                        setTimeout(function () {
+                            window.close();
+                        }, 3000);
                     } else if (status === -1) {
                         clearInterval(questionService.timer);
                         $('#exam-timer').text('00:00');
