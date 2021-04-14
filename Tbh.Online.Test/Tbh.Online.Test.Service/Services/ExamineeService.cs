@@ -54,6 +54,10 @@ namespace Tbh.Online.Test.Service.Services
             answer.CreatedOn = DateTime.Now;
             answer.UpdatedOn = DateTime.Now;
 
+            var examStatus = _examRepository.GetExamStatus(answer.ExamId, answer.ExamineeId);
+            if (examStatus.Status == 2 || examStatus.Status == -1)
+                return new CrudResult(false, "You have already participated in this exam, you cannot submit any ansswer now");
+
             var mapper = _config.CreateMapper();
             var dbAnswer = mapper.Map<AppAnswer, Answer>(answer);
             var result = dbAnswer.Id == 0 ? Add<Answer>(dbAnswer) : Edit<Answer>(dbAnswer);

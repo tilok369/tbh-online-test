@@ -82,16 +82,16 @@ textarea.answer-area {
     font-size: 20px;
     position: fixed;
     z-index: 2000;
-    left: 75%;
-    top: 10%;
+    left: 79%;
+    top: 12%;
 }
 
 .timer-label-2 {
     font-size: 20px;
     position: fixed;
     z-index: 2000;
-    left: 87%;
-    top: 10%;
+    left: 93%;
+    top: 12%;
 }
 
 .fullscreen-btn {

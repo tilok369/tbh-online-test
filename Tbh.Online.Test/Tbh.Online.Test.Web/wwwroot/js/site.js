@@ -486,7 +486,7 @@ var questionService = {
                     $('#question-text-' + index).attr('data-answer-id', result.Id);
                     $('#q-answer-msg-' + index).text('Answer submitted successfully!');
                 } else {
-                    $('#q-answer-msg-' + index).text('Error while submitting answer, please try again or contact invigilator');
+                    $('#q-answer-msg-' + index).text(result.Message + '. Please try again or contact invigilator');
                     setTimeout(function () {
                         $('#q-answer-msg-' + index).text('');
                     }, 3000);
@@ -525,16 +525,15 @@ var questionService = {
                         questionService.seconds = 0;
                         $('#questions-container').hide();
                         $('#complete-btn').hide();
-                        $('#complete-msg').text('TEST completed successfully or time elapsed, this test windows will be closed in 3 seconds. You will be contacted by the invigilator later!');
-                        setTimeout(function () {
-                            window.close();
-                        }, 3000);
+                        $('#complete-msg').text('TEST completed successfully or time elapsed, please close the window. You will be contacted by the invigilator later!');
+                        questionService.preventOutsideClick(false);
                     } else if (status === -1) {
                         clearInterval(questionService.timer);
                         $('#exam-timer').text('00:00');
                         questionService.seconds = 0;
                         $('#questions-container').hide();
                         $('#complete-btn').hide();
+                        questionService.preventOutsideClick(false);
                         alert('Illegal activity detected, you are disqualified for the exam. Better luck next time.');
                     }
                 } else {
@@ -549,9 +548,10 @@ var questionService = {
     },
 
     completeTest: function () {
-        if (confirm('Are you sure, you want to complete the TEST?')) {
-            questionService.changeTestStatus(2);
-        }
+        //if (confirm('Are you sure, you want to complete the TEST?')) {
+        //    questionService.changeTestStatus(2);
+        //}
+        questionService.changeTestStatus(2);
     },
 
     toggleFullScreen: function () {
