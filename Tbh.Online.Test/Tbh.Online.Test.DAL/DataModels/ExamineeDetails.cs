@@ -14,6 +14,7 @@ namespace Tbh.Online.Test.DAL.DataModels
         public string Phone { get; set; }
         public string Email { get; set; }
         public int Status { get; set; }
+        public int TotalSubmission { get; set; }
         public double TotalMarks { get; set; }
         public double ObtainedMarks { get; set; }
     }

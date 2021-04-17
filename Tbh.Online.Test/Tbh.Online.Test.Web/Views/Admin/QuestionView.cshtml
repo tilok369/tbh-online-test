@@ -6,6 +6,8 @@
                 <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
                 <input type="hidden" id="exam-created-on" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" />
                 <input type="hidden" id="exam-created-by" value="@User.Identity.Name" />
+                <input type="hidden" id="question-created-on" value="@DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")" />
+                <input type="hidden" id="question-created-by" value="@User.Identity.Name" />
                 <input type="hidden" id="exam-code" value="" />
                 <div class="mb-3">
                     <label for="url" class="form-label text-white">Exam URL</label>

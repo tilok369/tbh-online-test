@@ -37,7 +37,7 @@ var questionService = {
 
     addQuestionGroup: function (index) {
         $('#question-group-' + (index - 1)).append(
-            '<ul id = "question-group-' + index + '"  data-id="0" class= "list-group list-group-flush" >' +
+            '<ul id = "question-group-' + index + '"  data-id="0" data-created-on="' + $('#question-created-on').val() + '" data-created-by="' + $('#question-created-by').val() + '" class= "list-group list-group-flush" >' +
             '<li class= "list-group-item" >' +
             '<div class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
             '</li >' +
@@ -122,8 +122,8 @@ var questionService = {
                     SubText: $('#question-code-' + i).val(),
                     Options: '',
                     Point: parseFloat($('#question-mark-' + i).val()),
-                    CreatedOn: new Date($('#exam-created-on').val()),
-                    CreatedBy: $('#exam-created-by').val()
+                    CreatedOn: new Date($('#question-group-' + i).attr('data-created-on')),
+                    CreatedBy: $('#question-group-' + i).attr('data-created-by')
                 }
                 json.push(item);
             }            
@@ -239,8 +239,8 @@ var questionService = {
         var html = '';
         $.each(data.Questions, function (i, value) {
             var index = i + 1;
-            html += '<ul id = "question-group-' + index + '"  data-id="' + value.Id + '" class= "list-group list-group-flush" >' +
-                '<li class= "list-group-item" >' +
+            html += '<ul id = "question-group-' + index + '"  data-id="' + value.Id + '" data-created-on="' + value.CreatedOn + '" data-created-by="' + value.CreatedBy + '" class= "list-group list-group-flush" >' +
+                '<li class="list-group-item" >' +
                 '<div ' + (index === 1 ? 'style="display:none;"' : '') +' class="float-right">Delete <i style="cursor: pointer;" onclick="questionService.deleteQuestionGroup(' + (index) + ')" class="fa fa-times-circle text-danger"></i></div>' +
                 '</li >' +
                 '<li class="list-group-item">' +
@@ -597,6 +597,7 @@ var questionService = {
                 '<td>' + value.Phone + '</td>' +
                 '<td>' + value.TotalMarks + '</td>' +
                 '<td>' + value.ObtainedMarks + '</td>' +
+                '<td>' + value.TotalSubmission + '</td>' +
                 '<td class="' + (value.Status == 1 ? 'text-info' : value.Status == 2 ? 'text-success' : 'text-danger') +'">' + (value.Status == 1 ? 'Attended' : value.Status == 2 ? 'Completed' : 'Disqualified') + '</td>' +
                 '<td>' +
                 '<a href="javascript:void(0)"><i class="fa fa-chalkboard-teacher text-info" title="Answer Details" onclick="questionService.viewAnswers(' + value.ExamId + ', ' + value.ExamineeId + ')"></i></a>' +
@@ -637,7 +638,7 @@ var questionService = {
         var html = '';
         $.each(data, function (i, value) {
             var index = i + 1;
-            html += '<ul id = "question-group-' + index + '"  data-id="' + value.AnswerId + '" class= "list-group list-group-flush" >' +
+            html += '<ul id = "question-group-' + index + '"  data-id="' + value.AnswerId + '" data-assessed-by="' + value.AssessedBy + '" class= "list-group list-group-flush" >' +
                 '<li class="list-group-item">' +
                 '<label for="type-' + index + '" class="form-label text-dark">Question Type</label>' +
                 '<select disabled id="type-' + index + '" name="duration" class="form-control" aria-label="Default select example">' +
@@ -669,7 +670,7 @@ var questionService = {
                 '</li>' +
                 '<li class="list-group-item">' +
                 '<label for="answer-mark-' + index + '" class="form-label text-primary">Given Marks</label>' +
-                '<input type="number" class="form-control" id="answer-mark-' + index + '" value="' + value.AnswerPoint + '" name="question-mark-' + index + '">' +
+                '<input onchange="questionService.isEdited(' + index + ')" data-edited-' + index + '="0" type="number" class="form-control" id="answer-mark-' + index + '" value="' + value.AnswerPoint + '" name="question-mark-' + index + '">' +
                 '</li>' +
                 '</ul><br/>';
 
@@ -698,7 +699,7 @@ var questionService = {
                 Id: parseInt($('#question-group-' + index).attr('data-id')),
                 Point: parseFloat($('#answer-mark-' + index).val()),
                 ActualPoint: parseFloat($('#question-mark-' + index).val()),
-                AssessedBy: $('#assessed-by').val(),
+                AssessedBy: $('#answer-mark-' + index).attr('data-edited-' + index) == "0" && $('#question-group-' + index).attr('data-assessed-by') ? $('#question-group-' + index).attr('data-assessed-by') : $('#assessed-by').val(),
                 ExamId: parseInt($('#exam-id').val()),
                 ExamineeId: parseInt($('#examinee-id').val())
             }
@@ -741,5 +742,14 @@ var questionService = {
         }
 
         window.location = questionService.getRootUrl() + '/Test/Info?ec=' + $('#code').val();
+    },
+
+    isEdited: function (index) {
+        $('#answer-mark-' + index).attr('data-edited-' + index, '1');
+    },
+
+    breadCrumbClick: function (controller, action, param) {
+        window.location = questionService.getRootUrl() + '/' + controller + '/' + action +
+            (param ? '?' + param : '');
     }
 };

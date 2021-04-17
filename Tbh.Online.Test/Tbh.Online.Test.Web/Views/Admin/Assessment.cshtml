@@ -2,6 +2,7 @@
     <div class="col-lg-10 col-md-10 col-sm-12 offset-lg-1 offset-md-1">
         <div class="card">
             <div class="card-body bg-dark">
+                <a href="javascript:void(0);" onclick="questionService.breadCrumbClick('Admin', 'Examinees', 'examId=@ViewBag.ExamId')"><i title="back to examinees" class="fa fa-fast-backward text-warning float-right"></i></a>
                 <h4 class="text-white">Exam Assessment</h4>
                 <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
                 <input type="hidden" id="examinee-id" value="@ViewBag.ExamineeId" />
@@ -13,10 +14,17 @@
                 <div class="mb-3">
                     <label for="duration" class="form-label text-white">Duration</label>
                     <select id="duration" disabled name="duration" class="form-control" aria-label="Default select example">
+                        <option value="2">2 Minutes</option>
+                        <option value="5">5 Minutes</option>
+                        <option value="15">15 Minutes</option>
                         <option value="30">30 Minutes</option>
                         <option value="60">60 Minutes</option>
                         <option value="90">90 Minutes</option>
                         <option value="120">120 Minutes</option>
+                        <option value="120">150 Minutes</option>
+                        <option value="120">180 Minutes</option>
+                        <option value="120">210 Minutes</option>
+                        <option value="120">240 Minutes</option>
                     </select>
                 </div>
                 <div class="mb-3">

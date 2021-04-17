@@ -37,6 +37,7 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   ExamId = exam.Id,
                                   ExamineeId =answer.ExamineeId,
                                   AnswerId = answer.Id,
+                                  QuestionId = qus.Id,
                                   Text = qus.Text,
                                   SubText = qus.SubText,
                                   Point = qus.Point,
@@ -47,8 +48,9 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   ExamineeEmail = examinee.Email,
                                   ExamineePhone = examinee.Phone,
                                   Title = exam.Title,
-                                  Duration = exam.Duration
-                              }).ToList();
+                                  Duration = exam.Duration,
+                                  AssessedBy = answer.AssessedBy??""
+                              }).OrderBy(a => a.QuestionId).ToList();
 
                 return result;
             }
@@ -74,6 +76,10 @@ namespace Tbh.Online.Test.DAL.Repositories
         {
             using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
             {
+                var submittedsQuestions = context.Answers.Where(a => a.ExamId == examId)
+                    .GroupBy(a => a.ExamineeId)
+                    .Select(a => new { ExamineeId = a.Key, Total = a.Select(x=>x.QuestionId).Distinct().Count() });
+
                 var result = (from exam in context.Exams
                               join stat in context.ExamStatus
                               on exam.Id equals stat.ExamId
@@ -94,6 +100,12 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   ObtainedMarks = stat.ObtainedMarks
                               }).OrderByDescending(t=>t.Status)
                               .ThenByDescending(t=>t.ObtainedMarks).ToList();
+
+                foreach (var res in result)
+                {
+                    var item = submittedsQuestions.FirstOrDefault(s => s.ExamineeId == res.ExamineeId);
+                    res.TotalSubmission = item?.Total ?? 0;
+                }
 
                 return result;
             }

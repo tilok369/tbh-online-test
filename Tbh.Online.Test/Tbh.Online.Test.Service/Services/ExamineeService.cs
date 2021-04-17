@@ -16,10 +16,12 @@ namespace Tbh.Online.Test.Service.Services
     public class ExamineeService : GenericCrudService, IExamineeService
     {
         private IExamRepository _examRepository;
+        private IQuestionRepository _questionRepository;
         private readonly MapperConfiguration _config;
         public ExamineeService(string connectionString):base(connectionString)
         {
             _examRepository = new ExamRepository(connectionString);
+            _questionRepository = new QuestionRepository(connectionString);
             _config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AppExaminee, Examinee>();
@@ -117,7 +119,9 @@ namespace Tbh.Online.Test.Service.Services
             if(examStat == null)
                 return new CrudResult(false, "Error");
 
-            examStat.TotalMarks = assessDetails.Sum(a => a.ActualPoint);
+            var questions = _questionRepository.GetByExam(assessDetails[0].ExamId);
+
+            examStat.TotalMarks = questions.Sum(a => a.Point??0.0);
             examStat.ObtainedMarks = assessDetails.Sum(a => a.Point);
             var resultStat = Edit<ExamStatu>(examStat);
 
