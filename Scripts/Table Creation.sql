@@ -155,3 +155,7 @@ select * from [dbo].[Role]
 --,('ekram.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
 --,('raju.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
 --,('akhtar.bd@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+
+--insert into [dbo].[User] 
+--values ('asifur.rahman@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+--,('jillur@asa-international.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
