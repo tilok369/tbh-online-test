@@ -22,6 +22,9 @@ namespace Tbh.Online.Test.Web.Controllers
             {
                 ViewBag.ExamId = exam.Id;
                 ViewBag.Status = exam.Status;
+                ViewBag.Title = exam.Title;
+                ViewBag.Duration = exam.Duration;
+                ViewBag.TotalQuestions = exam.TotalQuestions;
             }
             return View();
         }

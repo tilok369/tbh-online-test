@@ -5,21 +5,22 @@
                 <input type="hidden" value="@ViewBag.EC" id="ec" />
                 <input type="hidden" id="exam-id" value="@ViewBag.ExamId" />
                 <input type="hidden" id="exam-status" value="@ViewBag.Status" />
-                <h4 class="card-title"><i class="fa fa-keyboard"></i> Software Engineer Online Programming Test</h4>
+                <h4 class="card-title"><i class="fa fa-keyboard"></i> @ViewBag.Title</h4>
                 <h6>Hosted By: <strong>ASA International</strong></h6>
                 <span class="badge bg-secondary p-2 text-white">Date Time: </span>
-                <span class="badge bg-dark p-2 text-white">3rd April, 2021</span>
+                <span class="badge bg-dark p-2 text-white">@DateTime.Today.ToString("dd MMM yyyy")</span>
                 <span class="badge bg-secondary p-2 text-white">Total Questions: </span>
-                <span class="badge bg-dark p-2 text-white">15</span>
+                <span class="badge bg-dark p-2 text-white">@ViewBag.TotalQuestions</span>
                 <span class="badge bg-secondary p-2 text-white">Duration: </span>
-                <span class="badge bg-dark p-2 text-white">90 Minutes</span>
+                <span class="badge bg-dark p-2 text-white">@ViewBag.Duration Minutes</span>
                 <h5 class="mt-4">Instructions</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">1) Before starting the test, make sure that you have a <strong>good internet connection</strong></li>
-                    <li class="list-group-item">2) During test, <strong>DO NOT</strong> use any external device such as mobile phone or TAB</li>
-                    <li class="list-group-item">3) This test is <strong>Window Proctored.</strong> Please <strong>DO NOT</strong> navigate away from the test window during the test. If the system detects that you have opened any other browser tab, application (browser, chat etc) it will mark you disqualified. Even you are not allowed to click on <strong>outside the browser page area</strong> during the <strong>TEST</strong>.</li>
+                    <li class="list-group-item">1) Before starting the test, make sure that you have a <strong class="text-success">good internet connection</strong></li>
+                    <li class="list-group-item">2) During test, <strong class="text-danger">DO NOT use any external device such as mobile phone or TAB</strong></li>
+                    <li class="list-group-item">3) This test is <strong class="text-danger">Window Proctored.</strong> Please <strong>DO NOT</strong> navigate away from the test browser page during the test. If the system detects that you have opened any other browser tab, application (browser, chat etc) or click outside of test page, it will mark you <strong class="text-danger">disqualified</strong>. Even you are not allowed to click on <strong class="text-danger">outside the browser page area</strong> during the <strong>TEST</strong>.</li>
                     <li class="list-group-item">4) Once the test is started, you cannot <strong>leave it or restart it.</strong></li>
-                    <li class="list-group-item">5) You can submit same questions as many times as you want, <strong>only the last submitted answer will be counted.</strong></li>
+                    <li class="list-group-item">4) You have to submit each question individually by pressing <strong class="text-success">submit button</strong> and press <strong class="text-success">Complete Test</strong> when all are completed or you want to finish the test.</li>
+                    <li class="list-group-item">6) You can submit same question as many times as you want, <strong class="text-success">only the last submitted answer will be counted.</strong></li>
                 </ul>
 
                 <h6 class="mt-4">Please fill up the information below and proceed for the test</h6>
