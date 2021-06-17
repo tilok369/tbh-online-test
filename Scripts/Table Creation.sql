@@ -162,3 +162,6 @@ select * from [dbo].[Role]
 
 --insert into [dbo].[User] 
 --values ('pulak.maksud@gmail.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
+
+--insert into [dbo].[User] 
+--values ('priya23ro@gmail.com', '@dminP@55w0rd', 1, 1, GETDATE(), 'System', GETDATE(), 'System')
