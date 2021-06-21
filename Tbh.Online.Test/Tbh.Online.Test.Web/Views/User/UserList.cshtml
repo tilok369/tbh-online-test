@@ -5,14 +5,14 @@
                 <h4 class="card-title"><i class="fa fa-users" aria-hidden="true"></i> User Management</h4>
                 <h5 class="mt-4">User List</h5>
 
-                <table id="exam-table" class="table table-dark table-striped table-hover">
+                <table id="user-table" class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Email</th>
                             <th>Role</th>
                             <th>Status</th>
-
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,8 +22,9 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        userService.getUsers();
+        userManagementService.getUserList();
     });
 </script>

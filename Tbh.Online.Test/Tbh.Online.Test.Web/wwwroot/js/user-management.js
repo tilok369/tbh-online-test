@@ -2,16 +2,31 @@
     getUserList: function () {
         $.ajax({
             type: "GET",
-            url: userService.getRootUrl() + "/api/v1.0/User/userList",
+            url: questionService.getRootUrl() + "/api/v1.0/User/userList",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                userService.renderUserList(result);
+                userManagementService.renderUserList(result);
+                console.log(result);
             },
             error: function (xhr, status, exception) {
                 console.log(xhr);
                 console.log("Error: " + exception + ", Status: " + status);
             }
         });
-    }
+    },
+
+    renderUserList: function (data) {
+        $.each(data, function (index, value) {
+            $('table#user-table tbody').append('<tr>' +
+                '<td>' + (index + 1) + '</td>' +
+                '<td>' + value.Email + '</td>' +
+                '<td>' + value.Role + '</td>' +
+                '<td>' + value.Status + '</td>' +
+                '<td>' +
+                '<a href="javascript:void(0)"><i class="fa fa-edit text-info" title="View/Edit Details" onclick="userManagementService.editDetails(' + value.UserId + ')"></i></a>' +
+                '</td>' +
+                '</tr >');
+        });
+    },
 };
