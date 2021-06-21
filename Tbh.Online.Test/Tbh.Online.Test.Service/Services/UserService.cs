@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Tbh.Online.Test.DAL.Interfaces;
 using Tbh.Online.Test.DAL.Models;
@@ -33,12 +34,25 @@ namespace Tbh.Online.Test.Service.Services
             return user;
         }
 
-        public List<AppUser> GetUsers()
+        public List<AppUserListItem> GetUsers()
         {
             var mapper = _config.CreateMapper();
-            var users = mapper.Map<List<User>, List<AppUser>>(_userRepository.GetAll());
-            var roles = mapper.Map<List<Role>, List<>>(_roleRepository.GetAll());
-            return users;
+            var users = _userRepository.GetAll();
+            var roles = _roleRepository.GetAll();
+
+            var userList = (from user in users
+                            join role in roles
+                            on user.RoleId equals role.Id
+                            select new AppUserListItem
+                            {
+                                UserId = user.Id,
+                                Role = role.Name,
+                                Status = user.Status ? "Active" : "Inactive",
+                                Email = user.Email
+                            }).ToList();
+
+            return userList;
+
         }
     }
 }
