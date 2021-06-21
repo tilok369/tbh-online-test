@@ -34,5 +34,13 @@ namespace Tbh.Online.Test.DAL.Repositories
                 return context.Users.FirstOrDefault(u => u.Id == Id);
             }
         }
+
+        public List<User> GetAll()
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                return context.Users.OrderBy(e => e.CreatedOn).ToList();
+            }
+        }
     }
 }

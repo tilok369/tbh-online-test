@@ -8,5 +8,6 @@ namespace Tbh.Online.Test.Service.Interfaces
     public interface IUserService
     {
         AppUser Get(string email, string password);
+        List<AppUser> GetUsers();
     }
 }
