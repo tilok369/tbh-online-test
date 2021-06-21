@@ -1,0 +1,30 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Tbh.Online.Test.Model.App;
+using Tbh.Online.Test.Service.Interfaces;
+
+namespace Tbh.Online.Test.Web.Controllers
+{
+    [Route("api/v{version:apiVersion}/User")]
+    [ApiController]
+    public class UserListController : ControllerBase
+    {
+        private readonly IUserService _userService;
+
+        public UserListController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet("userList")]
+        public ActionResult<List<AppUserListItem>> GetUserList()
+        {
+            var data = _userService.GetUsers();
+            return Ok(data);
+        }
+    }
+}
