@@ -13,8 +13,9 @@ namespace Tbh.Online.Test.Web.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int userId)
         {
+            ViewBag.UserId = userId;
             return View();
         }
     }

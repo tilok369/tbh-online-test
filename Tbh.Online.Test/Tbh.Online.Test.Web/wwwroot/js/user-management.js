@@ -53,5 +53,8 @@
 
     renderUserData: function (data) {
         console.log(data);
+        $('#email').val(data.Email);
+        $('#created-on').val(data.CreatedOn);
+        $('#created-by').val(data.CreatedBy);
     },
 };
