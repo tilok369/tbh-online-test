@@ -54,5 +54,13 @@ namespace Tbh.Online.Test.Service.Services
             return userList;
 
         }
+
+        public AppUser Get(int id)
+        {
+            var mapper = _config.CreateMapper();
+            var user = mapper.Map<User, AppUser>(_userRepository.Get(id));
+            return user;
+        }
+
     }
 }

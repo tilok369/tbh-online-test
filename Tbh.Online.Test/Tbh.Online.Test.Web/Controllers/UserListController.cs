@@ -26,5 +26,12 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _userService.GetUsers();
             return Ok(data);
         }
+
+        [HttpGet("user") ]
+        public ActionResult<AppUser> GetUser(int id)
+        {
+            var data = _userService.Get(id);
+            return Ok(data);
+        }
     }
 }

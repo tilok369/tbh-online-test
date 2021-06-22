@@ -29,4 +29,29 @@
                 '</tr >');
         });
     },
+
+    editDetails: function (userId) {
+        window.location = questionService.getRootUrl() + '/User/Edit?userId=' + userId;
+    },
+
+    getUserDetails: function () {
+        $.ajax({
+            type: "GET",
+            url: questionService.getRootUrl() + "/api/v1.0/User/user?id=" + $('#user-id').val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                userManagementService.renderUserData(result);
+
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    },
+
+    renderUserData: function (data) {
+        console.log(data);
+    },
 };

@@ -12,5 +12,10 @@ namespace Tbh.Online.Test.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult Edit()
+        {
+            return View();
+        }
     }
 }
