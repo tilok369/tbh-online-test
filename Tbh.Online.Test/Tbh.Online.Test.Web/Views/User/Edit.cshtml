@@ -2,17 +2,24 @@
     <div class="col-lg-10 col-md-10 col-sm-12 offset-lg-1 offset-md-1">
         <div class="card">
             <div class="card-body bg-dark">
-                <h4 class="text-white">View/Edit User Details</h4>
+                <h4 class="text-white"><i class="fa fa-edit " aria-hidden="true"></i> View/Edit User Details </h4>
                 <input type="hidden" id="user-id" value="@ViewBag.UserId" />
                 <input type="hidden" id="created-on" value="" />
                 <input type="hidden" id="created-by" value="" />
+                <input type="hidden" id="updated-on" value="" />
+                <input type="hidden" id="updated-by" value="" />
+
                 <div class="mb-3">
                     <label for="email" class="form-label text-white">Email</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <input type="email" class="form-control" id="email" name="email" disabled>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label text-white">Password</label>
                     <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label text-white">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
                 </div>
                 <div class="mb-3">
                     <label for="role" class="form-label text-white">Role </label>

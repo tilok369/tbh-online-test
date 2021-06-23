@@ -62,5 +62,13 @@ namespace Tbh.Online.Test.Service.Services
             return user;
         }
 
+        public CrudResult Save(AppUser users)
+        {
+            var mapper = _config.CreateMapper();
+            var user = mapper.Map<AppUser, User>(users);
+            var dbUser = _userRepository.Save(user);
+            return new CrudResult(dbUser, "success");
+        }
+
     }
 }

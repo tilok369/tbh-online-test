@@ -33,5 +33,12 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _userService.Get(id);
             return Ok(data);
         }
+
+        [HttpPost()]
+        public ActionResult<CrudResult> EditUser(AppUser user)
+        {
+            var data = _userService.Save(user);
+            return Ok(data);
+        }
     }
 }

@@ -42,5 +42,32 @@ namespace Tbh.Online.Test.DAL.Repositories
                 return context.Users.OrderBy(e => e.CreatedOn).ToList();
             }
         }
+
+        public bool Save(User user)
+        {
+
+            try
+            {
+                using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+                {
+                    if (user.Id == 0)
+                    {
+                        context.Users.Add(user);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        context.Entry(user).State = EntityState.Modified;
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
     }
 }

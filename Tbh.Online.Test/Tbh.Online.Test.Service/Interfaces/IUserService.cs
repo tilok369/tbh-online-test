@@ -10,5 +10,6 @@ namespace Tbh.Online.Test.Service.Interfaces
         AppUser Get(string email, string password);
         List<AppUserListItem> GetUsers();
         AppUser Get(int id);
+        CrudResult Save(AppUser user);
     }
 }

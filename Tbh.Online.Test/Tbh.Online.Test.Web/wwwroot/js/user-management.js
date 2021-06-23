@@ -56,5 +56,11 @@
         $('#email').val(data.Email);
         $('#created-on').val(data.CreatedOn);
         $('#created-by').val(data.CreatedBy);
+        $('#updated-on').val(data.UpdatedOn);
+        $('#updated-by').val(data.UpdatedBy);
+        $('#password').val(data.Password);
+        $('#confirmPassword').val(data.Password);
+        $('#role').val(data.Role.Name);
+        $('#status').val(data.Status ? "Active" : "Inactive").prop('checked', true);
     },
 };
