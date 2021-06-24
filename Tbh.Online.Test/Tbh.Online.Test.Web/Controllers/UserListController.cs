@@ -37,7 +37,12 @@ namespace Tbh.Online.Test.Web.Controllers
         [HttpPost()]
         public ActionResult<CrudResult> EditUser(AppUser user)
         {
+            if (user == null) return Ok(new CrudResult(false, "No such user!"));
+
+            user.UpdatedOn = DateTime.Now;
+            user.UpdatedBy = User.Identity.Name;
             var data = _userService.Save(user);
+            
             return Ok(data);
         }
     }

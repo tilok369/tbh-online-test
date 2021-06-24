@@ -60,8 +60,8 @@
         $('#updated-by').val(data.UpdatedBy);
         $('#password').val(data.Password);
         $('#confirmPassword').val(data.Password);
-        $('#role').val(data.Role.Name);
-        $('#status').prop('checked', data.status);
+        $('#role').val(data.RoleId);
+        $('#status').prop('checked', data.Status);
     },
 
     saveValidations: function () {
