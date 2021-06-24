@@ -89,7 +89,7 @@
         $.ajax({
             type: "POST",
             url: questionService.getRootUrl() + "/api/v1.0/User",
-            data: JSON.stringify( user ),
+            data: JSON.stringify(user ),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
@@ -106,6 +106,8 @@
             }
            
         });
-    }
+    },
+  
+
 
 };

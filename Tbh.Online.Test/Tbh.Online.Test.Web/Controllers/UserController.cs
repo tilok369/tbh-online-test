@@ -18,5 +18,9 @@ namespace Tbh.Online.Test.Web.Controllers
             ViewBag.UserId = userId;
             return View();
         }
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
     }
 }
