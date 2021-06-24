@@ -23,7 +23,7 @@ namespace Tbh.Online.Test.Web.Controllers
         [HttpGet("userList")]
         public ActionResult<List<AppUserListItem>> GetUserList()
         {
-            var data = _userService.GetUsers();
+            var data = _userService.GetUsers(User.Identity.Name);
             return Ok(data);
         }
 

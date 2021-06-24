@@ -23,14 +23,14 @@
                 </div>
                 <div class="mb-3">
                     <label for="role" class="form-label text-white">Role </label>
-                    <select id="role" name="role" class="form-control" aria-label="Default select example">
+                    <select id="role" name="role" class="form-control" aria-label="Default select example" @((int)ViewBag.Role != 1 ? "disabled" : "")>
                         <option value="1">Admin</option>
                         <option value="2">Invigilator</option>
                     </select>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="status" checked>
+                    <input class="form-check-input" type="checkbox" id="status" checked  @((int)ViewBag.Role != 1 ? "disabled" : "")>
                     <label class="form-check-label text-white" for="status">
                         Active
                     </label>

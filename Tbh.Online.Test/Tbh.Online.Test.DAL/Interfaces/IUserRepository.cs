@@ -9,6 +9,7 @@ namespace Tbh.Online.Test.DAL.Interfaces
     {
         User Get(string email, string password);
         User Get(int Id);
+        User GetByEmail(string email);
         List<User> GetAll();
         bool Save(User user);
     }

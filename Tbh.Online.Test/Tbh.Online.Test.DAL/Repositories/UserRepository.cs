@@ -43,6 +43,14 @@ namespace Tbh.Online.Test.DAL.Repositories
             }
         }
 
+        public User GetByEmail(string email)
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                return context.Users.FirstOrDefault(u => u.Email.Equals(email));
+            }
+        }
+
         public bool Save(User user)
         {
 

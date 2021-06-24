@@ -35,11 +35,14 @@ namespace Tbh.Online.Test.Service.Services
             return user;
         }
 
-        public List<AppUserListItem> GetUsers()
+        public List<AppUserListItem> GetUsers(string email)
         {
             var mapper = _config.CreateMapper();
             var users = _userRepository.GetAll();
             var roles = _roleRepository.GetAll();
+            var loggedinUser = _userRepository.GetByEmail(email);
+
+            users = users.Where(u => loggedinUser.RoleId == 1 || (u.Email.Equals(email))).ToList();
 
             var userList = (from user in users
                             join role in roles
@@ -71,5 +74,11 @@ namespace Tbh.Online.Test.Service.Services
             return new CrudResult(dbUser, "success");
         }
 
+        public AppUser GetByEmail(string email)
+        {
+            var mapper = _config.CreateMapper();
+            var user = mapper.Map<User, AppUser>(_userRepository.GetByEmail(email));
+            return user;
+        }
     }
 }
