@@ -61,6 +61,51 @@
         $('#password').val(data.Password);
         $('#confirmPassword').val(data.Password);
         $('#role').val(data.Role.Name);
-        $('#status').val(data.Status ? "Active" : "Inactive").prop('checked', true);
+        $('#status').prop('checked', data.status);
     },
+
+    saveValidations: function () {
+        if ($('#confirmPassword').val() != $('#password').val()) {
+            alert('Passwords do not match!');
+            return false;
+        }
+        return true;
+    },
+
+    saveUser: function () {
+        if (!userManagementService.saveValidations()) {
+            return;
+        }
+        var user = {
+            Id: parseInt($('#user-id').val()),
+            Email: $('#email').val(),
+            Password: $('#password').val(),
+            RoleId: parseInt($('#role').val()),
+            Status: $('#status').is(':checked'),
+            CreatedOn: new Date($('#created-on').val()),
+            CreatedBy: $('#created-by').val(),
+
+        };
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/User",
+            data: JSON.stringify( user ),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    alert('User have been saved successfully');
+                    window.location = questionService.getRootUrl() + '/User/UserList';
+                } else {
+                    alert('Error while saving user, please contact administrator');
+                }
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+           
+        });
+    }
+
 };

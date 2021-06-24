@@ -24,6 +24,7 @@ namespace Tbh.Online.Test.Service.Services
             _config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<User, AppUser>();
+                cfg.CreateMap<AppUser, User>();
             });
         }
 
