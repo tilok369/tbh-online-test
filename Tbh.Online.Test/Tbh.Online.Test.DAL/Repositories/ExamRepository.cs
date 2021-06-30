@@ -121,20 +121,18 @@ namespace Tbh.Online.Test.DAL.Repositories
 
         public List<ExamineeScoreDetails> GetScoreByExaminee(int examineeId)
         {
-            using (var context = new OnlineTestDevContext(_dbContextOptionBuilder.Options))
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
             {
-                var result = (from score in context.ExamineeScore
+                var result = (from score in context.ExamineeScores
                               join user in context.Users
                               on score.ExaminerId equals user.Id
-                              join stat in context.ExamStatus
-                              on exam.Id equals stat.ExamId
-
-                              where examinee.Id == examineeId
+                              where score.ExamineeId == examineeId
                               select new ExamineeScoreDetails
                               {
+                                  ExaminerId = user.Id,
+                                  ExamineeId = examineeId,
                                   Examiner = user.Email,
-                                  Score = stat.ObtainedMarks,
-
+                                  Score = score.Score??0,
                               }).ToList();
 
                 return null;

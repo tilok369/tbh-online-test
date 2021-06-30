@@ -21,6 +21,7 @@ namespace Tbh.Online.Test.DAL.Models
         public virtual DbSet<Exam> Exams { get; set; }
         public virtual DbSet<ExamStatu> ExamStatus { get; set; }
         public virtual DbSet<Examinee> Examinees { get; set; }
+        public virtual DbSet<ExamineeScore> ExamineeScores { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<QuestionType> QuestionTypes { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -144,6 +145,29 @@ namespace Tbh.Online.Test.DAL.Models
                 entity.Property(e => e.UpdatedBy).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<ExamineeScore>(entity =>
+            {
+                entity.ToTable("ExamineeScore");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.ExamineeScores)
+                    .HasForeignKey(d => d.ExamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ExamineeS__ExamI__5DCAEF64");
+
+                entity.HasOne(d => d.Examinee)
+                    .WithMany(p => p.ExamineeScores)
+                    .HasForeignKey(d => d.ExamineeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ExamineeS__Exami__5CD6CB2B");
+
+                entity.HasOne(d => d.Examiner)
+                    .WithMany(p => p.ExamineeScores)
+                    .HasForeignKey(d => d.ExaminerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ExamineeS__Exami__5EBF139D");
             });
 
             modelBuilder.Entity<Question>(entity =>
