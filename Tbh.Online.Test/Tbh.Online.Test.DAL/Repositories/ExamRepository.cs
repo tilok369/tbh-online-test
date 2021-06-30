@@ -118,5 +118,28 @@ namespace Tbh.Online.Test.DAL.Repositories
                 return context.ExamStatus.FirstOrDefault(e => e.ExamId == examId && e.ExamineeId == examineeId);
             }
         }
+
+        public List<ExamineeScoreDetails> GetScoreByExaminee(int examineeId)
+        {
+            using (var context = new OnlineTestDevContext(_dbContextOptionBuilder.Options))
+            {
+                var result = (from score in context.ExamineeScore
+                              join user in context.Users
+                              on score.ExaminerId equals user.Id
+                              join stat in context.ExamStatus
+                              on exam.Id equals stat.ExamId
+
+                              where examinee.Id == examineeId
+                              select new ExamineeScoreDetails
+                              {
+                                  Examiner = user.Email,
+                                  Score = stat.ObtainedMarks,
+
+                              }).ToList();
+
+                return null;
+            }
+
+        }
     }
 }

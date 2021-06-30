@@ -62,7 +62,14 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _examineeService.SubmitPoint(assessDetails);
             return Ok(data);
         }
-       
+
+        [HttpGet("examineeScore")]
+        public ActionResult<List<AppExamineeScoreDetails>> ExamineeScore(int examineeId)
+        {
+            var data = _examineeService.GetScoreByExaminee(examineeId);
+            return Ok(data);
+        }
+
         //[HttpPost("cv")]
         //public IActionResult UploadCV(IFormFile file, AppExamineeDetails examineeId)
         //{

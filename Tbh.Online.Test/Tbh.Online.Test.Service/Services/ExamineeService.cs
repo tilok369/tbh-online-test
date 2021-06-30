@@ -127,5 +127,11 @@ namespace Tbh.Online.Test.Service.Services
 
             return new CrudResult(resultStat.Success, resultStat.Message);
         }
+        public List<AppExamineeScoreDetails> GetScoreByExaminee(int examineeId)
+        {
+            var mapper = _config.CreateMapper();
+            var score = mapper.Map<List<ExamineeScoreDetails>, List<AppExamineeScoreDetails>>(_examRepository.GetScoreByExaminee(examineeId));
+            return score;
+        }
     }
 }

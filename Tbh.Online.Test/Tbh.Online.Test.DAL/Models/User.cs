@@ -7,6 +7,11 @@ namespace Tbh.Online.Test.DAL.Models
 {
     public partial class User
     {
+        public User()
+        {
+            ExamineeScores = new HashSet<ExamineeScore>();
+        }
+
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -18,5 +23,6 @@ namespace Tbh.Online.Test.DAL.Models
         public string UpdatedBy { get; set; }
 
         public virtual Role Role { get; set; }
+        public virtual ICollection<ExamineeScore> ExamineeScores { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace Tbh.Online.Test.DAL.Models
         {
             Answers = new HashSet<Answer>();
             ExamStatus = new HashSet<ExamStatu>();
+            ExamineeScores = new HashSet<ExamineeScore>();
         }
 
         public int Id { get; set; }
@@ -22,9 +23,10 @@ namespace Tbh.Online.Test.DAL.Models
         public string UpdatedBy { get; set; }
         public string Phone { get; set; }
         public int? ExamId { get; set; }
-        public byte[] CV { get; set; }
+        public byte[] Cv { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<ExamStatu> ExamStatus { get; set; }
+        public virtual ICollection<ExamineeScore> ExamineeScores { get; set; }
     }
 }
