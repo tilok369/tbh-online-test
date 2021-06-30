@@ -15,5 +15,6 @@ namespace Tbh.Online.Test.Model.App
         public string UpdatedBy { get; set; }
         public string Phone { get; set; }
         public int? ExamId { get; set; }
+        public byte[] CV { get; set; }
     }
 }

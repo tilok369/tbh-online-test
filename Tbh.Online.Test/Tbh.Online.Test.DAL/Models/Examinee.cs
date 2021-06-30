@@ -22,6 +22,7 @@ namespace Tbh.Online.Test.DAL.Models
         public string UpdatedBy { get; set; }
         public string Phone { get; set; }
         public int? ExamId { get; set; }
+        public byte[] CV { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<ExamStatu> ExamStatus { get; set; }

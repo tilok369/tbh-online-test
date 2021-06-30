@@ -17,5 +17,6 @@ namespace Tbh.Online.Test.DAL.DataModels
         public int TotalSubmission { get; set; }
         public double TotalMarks { get; set; }
         public double ObtainedMarks { get; set; }
+        public byte[] CV { get; set; }
     }
 }

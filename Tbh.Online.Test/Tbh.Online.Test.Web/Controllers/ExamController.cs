@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -61,5 +62,31 @@ namespace Tbh.Online.Test.Web.Controllers
             var data = _examineeService.SubmitPoint(assessDetails);
             return Ok(data);
         }
+       
+        //[HttpPost("cv")]
+        //public IActionResult UploadCV(IFormFile file, AppExamineeDetails examineeId)
+        //{
+        //    var data = _examineeService.UploadCV(file, examineeId);
+        //    return Ok(data);
+        //}
+        //public IActionResult UploadCV(IFormFile file, AppExamineeDetails examineeId)
+        //{
+
+        //    if (file != null)
+        //    {
+        //        if (file.Length > 0)
+        //        {
+        //            var cv = new AppExamineeDetails();
+        //            using (var target = new MemoryStream())
+        //            {
+        //                file.CopyTo(target);
+        //                cv.CV = target.ToArray();
+        //            }
+
+        //        }
+        //    }
+
+        //}
+
     }
 }

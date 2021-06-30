@@ -602,6 +602,12 @@ var questionService = {
                 '<td>' +
                 '<a href="javascript:void(0)"><i class="fa fa-chalkboard-teacher text-info" title="Answer Details" onclick="questionService.viewAnswers(' + value.ExamId + ', ' + value.ExamineeId + ')"></i></a>' +
                 '</td>' +
+                '<td>' +
+                '<a href="javascript:void(0)"><i class= "fas fa-file-upload text-info" title="Upload CV" onclick="" ></i></a>' +
+                '</td>' +
+                '<td>' +
+                '<a href="javascript:void(0)"><i class= "fa fa-list text-info" title="View Details" data-toggle="modal" data-target="#scoreModal" ></i></a>' +
+                '</td>' +
                 '</tr >');
         });
     },
@@ -610,6 +616,7 @@ var questionService = {
         window.location = questionService.getRootUrl() + '/Admin/Assessment?examId=' + examId + '&examineeId=' + examineeId;
     },
 
+    
     getQuestionAnswerDetails: function () {
         $.ajax({
             type: "GET",
