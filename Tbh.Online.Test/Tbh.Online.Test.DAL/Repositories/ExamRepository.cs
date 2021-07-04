@@ -135,7 +135,7 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   Score = score.Score??0,
                               }).ToList();
 
-                return null;
+                return result;
             }
 
         }

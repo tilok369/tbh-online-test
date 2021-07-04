@@ -606,7 +606,7 @@ var questionService = {
                 '<a href="javascript:void(0)"><i class= "fas fa-file-upload text-info" title="Upload CV" onclick="" ></i></a>' +
                 '</td>' +
                 '<td>' +
-                '<a href="javascript:void(0)"><i class= "fa fa-list text-info" title="View Details" data-toggle="modal" data-target="#scoreModal" ></i></a>' +
+                '<a href="javascript:void(0)"><i class= "fa fa-list text-info" title="View Details" onclick="questionService.viewScores(' + value.ExamineeId + ')"></i></a>' +
                 '</td>' +
                 '</tr >');
         });
@@ -616,7 +616,14 @@ var questionService = {
         window.location = questionService.getRootUrl() + '/Admin/Assessment?examId=' + examId + '&examineeId=' + examineeId;
     },
 
-    
+    viewScores: function (examineeId) {
+
+        $("#scoreModal").modal();
+        questionService.getExamineeScore(examineeId);
+       
+       
+    },
+
     getQuestionAnswerDetails: function () {
         $.ajax({
             type: "GET",
@@ -758,5 +765,42 @@ var questionService = {
     breadCrumbClick: function (controller, action, param) {
         window.location = questionService.getRootUrl() + '/' + controller + '/' + action +
             (param ? '?' + param : '');
+    },
+    getExamineeScore: function (examineeId) {
+        $.ajax({
+            type: "GET",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/examineeScore?examineeId=" + examineeId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                
+                $('#examinee-id').val(examineeId);
+                questionService.renderExamineeScoreData(result);
+                
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+        });
+    },
+    renderExamineeScoreData: function (data) {
+      
+        $('table#examiner-score-table').empty();
+        $('table#examiner-score-table').html('<tr>' +
+            '<th>' + "#" + '</th>' +
+            '<th>' + "Examiner" + '</th>' +
+            '<th>' + "Score" + '</th>' +
+            '</tr >');
+        $.each(data, function (index, value) {
+            $('table#examiner-score-table').append('<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + value.Examiner + '</td>' +
+                    '<td>' + value.Score + '</td>' +
+                    '</tr >');
+                
+        });
+      
     }
+
 };
