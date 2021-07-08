@@ -17,11 +17,13 @@ namespace Tbh.Online.Test.Service.Services
     {
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
+        private IUserRepository _userRepository;
         private readonly MapperConfiguration _config;
         public ExamineeService(string connectionString):base(connectionString)
         {
             _examRepository = new ExamRepository(connectionString);
             _questionRepository = new QuestionRepository(connectionString);
+            _userRepository = new UserRepository(connectionString);
             _config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AppExaminee, Examinee>();
@@ -31,6 +33,7 @@ namespace Tbh.Online.Test.Service.Services
                 cfg.CreateMap<ExamineeDetails, AppExamineeDetails>();
                 cfg.CreateMap<AnswerDetails, AppAnswerDetails>();
                 cfg.CreateMap<ExamineeScoreDetails, AppExamineeScoreDetails>();
+                cfg.CreateMap<AppExamineeScoreDetails, ExamineeScore>();
             });
         }
         public CrudResult Add(AppExaminee examinee)
@@ -128,11 +131,36 @@ namespace Tbh.Online.Test.Service.Services
 
             return new CrudResult(resultStat.Success, resultStat.Message);
         }
-        public List<AppExamineeScoreDetails> GetScoreByExaminee(int examineeId)
+        public List<AppExamineeScoreDetails> GetScoreByExaminee(int examineeId, string examiner, int examId)
         {
             var mapper = _config.CreateMapper();
             var score = mapper.Map<List<ExamineeScoreDetails>, List<AppExamineeScoreDetails>>(_examRepository.GetScoreByExaminee(examineeId));
-            return score;
+            var loggedinUser = _userRepository.GetByEmail(examiner);
+            if (score.Exists(u => u.Examiner.Equals(loggedinUser.Email)) == true)
+            {
+                return score;
+            }
+            else
+            {
+                score.Add(new AppExamineeScoreDetails
+                {
+                    Id = 0,
+                    ExaminerId = loggedinUser.Id,
+                    ExamineeId = examineeId,
+                    ExamId = examId,
+                    Examiner = loggedinUser.Email,
+                    Score = 0d,
+                });
+                return score;
+            }
+           
+        }
+        public CrudResult SaveScore(AppExamineeScoreDetails scores)
+        {
+            var mapper = _config.CreateMapper();
+            var score = mapper.Map<AppExamineeScoreDetails, ExamineeScore>(scores);
+            var dbExamineeScore = _examRepository.SaveScore(score);
+            return new CrudResult(dbExamineeScore, "success");
         }
     }
 }

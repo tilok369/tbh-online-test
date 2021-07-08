@@ -14,5 +14,6 @@ namespace Tbh.Online.Test.DAL.Interfaces
         ExamStatu GetExamStatus(int examId, int examineeId);
         Examinee GetExamineeByExamAndEmail(int examId, string email);
         List<ExamineeScoreDetails> GetScoreByExaminee(int examineeId);
+        bool SaveScore(ExamineeScore score);
     }
 }

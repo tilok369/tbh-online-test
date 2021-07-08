@@ -617,11 +617,8 @@ var questionService = {
     },
 
     viewScores: function (examineeId) {
-
         $("#scoreModal").modal();
-        questionService.getExamineeScore(examineeId);
-       
-       
+        questionService.getExamineeScore(examineeId);             
     },
 
     getQuestionAnswerDetails: function () {
@@ -769,7 +766,7 @@ var questionService = {
     getExamineeScore: function (examineeId) {
         $.ajax({
             type: "GET",
-            url: questionService.getRootUrl() + "/api/v1.0/Exam/examineeScore?examineeId=" + examineeId,
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/examineeScore?examineeId=" + examineeId + '&examId=' + $('#exam-id').val(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
@@ -785,7 +782,7 @@ var questionService = {
         });
     },
     renderExamineeScoreData: function (data) {
-      
+        console.log(data);
         $('table#examiner-score-table').empty();
         $('table#examiner-score-table').html('<tr>' +
             '<th>' + "#" + '</th>' +
@@ -795,12 +792,54 @@ var questionService = {
         $.each(data, function (index, value) {
             $('table#examiner-score-table').append('<tr>' +
                     '<td>' + (index + 1) + '</td>' +
-                    '<td>' + value.Examiner + '</td>' +
-                    '<td>' + value.Score + '</td>' +
+                '<td>' + value.Examiner + '</td>' +
+                '<td>' + '<input id="score-input-' + (index+1) + '" type="text" size="1"' + ($('#user-email').val() != value.Examiner ? "disabled" : "") + ' value=' + value.Score + '>' + '</td>' +
+                '<td>' +
+                '<a href="javascript:void(0)"><i class= "fas fa-save text-info" title="Save" onclick="questionService.save(' + (index + 1)+ ',' + value.ExaminerId + ', ' + value.Score + ',' + value.ExamineeId + ',' + value.ExamId + ',' + value.Id +')"></i></a>' +
+                    '</td>' +
                     '</tr >');
                 
         });
       
-    }
+    },
+    save: function (index, examinerId, scores, examineeId, examId, id) {
+      
+        questionService.saveScore(index, examinerId, scores, examineeId, examId, id);
+    },
+    saveScore: function (index, examinerId, scores, examineeId, examId, id) {
+       
+        var score = {
 
+            //ExamId: $('#exam-id').val(examId),
+            //ExamineeId: $('#examinee-id').val(examineeId),
+            //ExaminerId: $('#examiner-id').val(examinerId),
+            //Score: $('#score').val(scores),
+            Id: id,
+            ExamId: examId,
+            ExamineeId: examineeId,
+            ExaminerId: examinerId,
+            Score: $('#score-input-' + index).val(),
+           
+        };
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/saveScore",
+            data: JSON.stringify(score),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    alert('Score have been saved successfully');
+                    questionService.getRootUrl() + '/Exam/examinee?examId=' + $('#exam-id').val();
+                } else {
+                    alert('Error while saving score');
+                }
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+
+        });
+    },
 };

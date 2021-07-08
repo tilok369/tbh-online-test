@@ -14,7 +14,8 @@ namespace Tbh.Online.Test.Service.Interfaces
         List<AppExamineeDetails> GetExamineeDetails(int examId);
         List<AppAnswerDetails> GetAnswerDetailsByExaminee(int examId, int examineeId);
         CrudResult SubmitPoint(List<AppAssessDetails> assessDetails);
-        List<AppExamineeScoreDetails> GetScoreByExaminee(int examineeId);
+        List<AppExamineeScoreDetails> GetScoreByExaminee(int examineeId, string examiner, int examId);
+        CrudResult SaveScore(AppExamineeScoreDetails scores);
         //CrudResult UploadCV(IFormFile file, AppExamineeDetails examinee);
     }
 }

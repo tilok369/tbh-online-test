@@ -64,13 +64,20 @@ namespace Tbh.Online.Test.Web.Controllers
         }
 
         [HttpGet("examineeScore")]
-        public ActionResult<List<AppExamineeScoreDetails>> ExamineeScore(int examineeId)
+        public ActionResult<List<AppExamineeScoreDetails>> ExamineeScore(int examineeId, int examId)
         {
             
-            var data = _examineeService.GetScoreByExaminee(examineeId);
+            var data = _examineeService.GetScoreByExaminee(examineeId, User.Identity.Name, examId);
             return Ok(data);
         }
 
+        [HttpPost("saveScore")]
+        public ActionResult<CrudResult> EditScore(AppExamineeScoreDetails scores)
+        {
+            var data = _examineeService.SaveScore(scores);
+
+            return Ok(data);
+        }
         //[HttpPost("cv")]
         //public IActionResult UploadCV(IFormFile file, AppExamineeDetails examineeId)
         //{

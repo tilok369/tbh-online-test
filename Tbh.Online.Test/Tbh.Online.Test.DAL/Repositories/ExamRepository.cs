@@ -13,7 +13,6 @@ namespace Tbh.Online.Test.DAL.Repositories
     {
         private readonly DbContextOptionsBuilder<OnlineTestContext> _dbContextOptionBuilder;
 
-
         public ExamRepository(string connectionString)
         {
             _dbContextOptionBuilder = new DbContextOptionsBuilder<OnlineTestContext>();
@@ -123,21 +122,51 @@ namespace Tbh.Online.Test.DAL.Repositories
         {
             using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
             {
-                var result = (from score in context.ExamineeScores
-                              join user in context.Users
-                              on score.ExaminerId equals user.Id
-                              where score.ExamineeId == examineeId
-                              select new ExamineeScoreDetails
-                              {
-                                  ExaminerId = user.Id,
-                                  ExamineeId = examineeId,
-                                  Examiner = user.Email,
-                                  Score = score.Score??0,
-                              }).ToList();
-
-                return result;
+               
+                    var result = (from score in context.ExamineeScores
+                                  join user in context.Users
+                                  on score.ExaminerId equals user.Id
+                                  where score.ExamineeId == examineeId
+                                  select new ExamineeScoreDetails
+                                  {
+                                      ExaminerId = user.Id,
+                                      ExamineeId = examineeId,
+                                      ExamId = score.ExamId,
+                                      Examiner = user.Email,
+                                      Score = score.Score ?? 0,
+                                  }).ToList();
+               
+                    return result;
+                
             }
 
+        }
+        public bool SaveScore(ExamineeScore score)
+        {
+
+            try
+            {
+                using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+                {
+                   
+                    if (score.Id == 0 )
+                    {
+                        context.ExamineeScores.Add(score);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        context.Entry(score).State = EntityState.Modified;
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
     }
 }
