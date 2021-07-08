@@ -6,7 +6,7 @@ namespace Tbh.Online.Test.DAL.DataModels
 {
     public class ExamineeScoreDetails
     {
-
+        public int Id { get; set; }
         public int ExaminerId { get; set; }
         public int ExamineeId { get; set; }
         public int ExamId { get; set; }

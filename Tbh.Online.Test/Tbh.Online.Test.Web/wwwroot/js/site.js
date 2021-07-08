@@ -608,6 +608,7 @@ var questionService = {
                 '<td>' +
                 '<a href="javascript:void(0)"><i class= "fa fa-list text-info" title="View Details" onclick="questionService.viewScores(' + value.ExamineeId + ')"></i></a>' +
                 '</td>' +
+                '<td><i class="fa fa-check-circle"></i></td>' +
                 '</tr >');
         });
     },
@@ -790,13 +791,14 @@ var questionService = {
             '<th>' + "Score" + '</th>' +
             '</tr >');
         $.each(data, function (index, value) {
+            console.log($('#user-email').val() === value.Examiner);
             $('table#examiner-score-table').append('<tr>' +
                     '<td>' + (index + 1) + '</td>' +
                 '<td>' + value.Examiner + '</td>' +
-                '<td>' + '<input id="score-input-' + (index+1) + '" type="text" size="1"' + ($('#user-email').val() != value.Examiner ? "disabled" : "") + ' value=' + value.Score + '>' + '</td>' +
+                '<td>' + '<input id="score-input-' + (index+1) + '" type="number" size="1"' + ($('#user-email').val() !== value.Examiner ? "disabled" : "") + ' value=' + value.Score + '>' + '</td>' +
                 '<td>' +
-                '<a href="javascript:void(0)"><i class= "fas fa-save text-info" title="Save" onclick="questionService.save(' + (index + 1)+ ',' + value.ExaminerId + ', ' + value.Score + ',' + value.ExamineeId + ',' + value.ExamId + ',' + value.Id +')"></i></a>' +
-                    '</td>' +
+                '<a href="javascript:void(0)"><i class= "fas fa-save text-info" title="Save"' + ($('#user-email').val() !== value.Examiner ? '' : 'onclick="questionService.save(' + (index + 1)+ ',' + value.ExaminerId + ', ' + value.Score + ',' + value.ExamineeId + ',' + value.ExamId + ',' + value.Id +')"') + '></i></a>' +
+                '</td>' +
                     '</tr >');
                 
         });
@@ -818,7 +820,7 @@ var questionService = {
             ExamId: examId,
             ExamineeId: examineeId,
             ExaminerId: examinerId,
-            Score: $('#score-input-' + index).val(),
+            Score: parseInt($('#score-input-' + index).val()),
            
         };
         $.ajax({

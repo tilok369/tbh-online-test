@@ -129,6 +129,7 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   where score.ExamineeId == examineeId
                                   select new ExamineeScoreDetails
                                   {
+                                      Id = score.Id,
                                       ExaminerId = user.Id,
                                       ExamineeId = examineeId,
                                       ExamId = score.ExamId,
