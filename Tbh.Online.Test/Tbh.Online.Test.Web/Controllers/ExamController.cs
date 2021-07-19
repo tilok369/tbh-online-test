@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tbh.Online.Test.Model.App;
@@ -15,10 +17,11 @@ namespace Tbh.Online.Test.Web.Controllers
     public class ExamController : ControllerBase
     {
         private readonly IExamineeService _examineeService;
-
-        public ExamController(IExamineeService examineeService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ExamController(IExamineeService examineeService, IWebHostEnvironment webHostEnvironment)
         {
             _examineeService = examineeService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpPost("examinee")]
@@ -78,30 +81,32 @@ namespace Tbh.Online.Test.Web.Controllers
 
             return Ok(data);
         }
-        //[HttpPost("cv")]
-        //public IActionResult UploadCV(IFormFile file, AppExamineeDetails examineeId)
-        //{
-        //    var data = _examineeService.UploadCV(file, examineeId);
-        //    return Ok(data);
-        //}
-        //public IActionResult UploadCV(IFormFile file, AppExamineeDetails examineeId)
-        //{
 
-        //    if (file != null)
-        //    {
-        //        if (file.Length > 0)
-        //        {
-        //            var cv = new AppExamineeDetails();
-        //            using (var target = new MemoryStream())
-        //            {
-        //                file.CopyTo(target);
-        //                cv.CV = target.ToArray();
-        //            }
+        [HttpPost("shortlist")]
+        public ActionResult<CrudResult> Shortlist(AppExaminee shortlist)
+        {
+            var data = _examineeService.Shortlist(shortlist);
 
-        //        }
-        //    }
+            return Ok(data);
+        }
+        [HttpPost("cv")]
+        public IActionResult UploadCV(IFormFile file)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        {
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "examineeCV");
+                string filePath = Path.Combine(uploadsFolder, file.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+                return new ObjectResult(new { status = "success" });
+            }
 
-        //}
+            return new ObjectResult(new { status = "fail" });
+        }
+
+
 
     }
 }

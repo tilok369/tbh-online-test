@@ -585,11 +585,12 @@ var questionService = {
     },
 
     renderExamineesData: function (data) {
+        console.log(data);
         if (data.length > 0) {
             $('#exam-title').html('Examinees for <strong class="text-primary">' + data[0].Title + '<strong>');
         }
         $.each(data, function (index, value) {
-            $('table#examinee-table tbody').append('<tr>' +
+            $('table#examinee-table tbody').append('<tr style="' + (value.Shortlist == true ? 'background-color:#003300' : '') + '">' +
                 '<td>' + (index + 1) + '</td>' +
                 '<td>' + value.Title + '</td>' +
                 '<td>' + value.Name + '</td>' +
@@ -603,12 +604,16 @@ var questionService = {
                 '<a href="javascript:void(0)"><i class="fa fa-chalkboard-teacher text-info" title="Answer Details" onclick="questionService.viewAnswers(' + value.ExamId + ', ' + value.ExamineeId + ')"></i></a>' +
                 '</td>' +
                 '<td>' +
-                '<a href="javascript:void(0)"><i class= "fas fa-file-upload text-info" title="Upload CV" onclick="" ></i></a>' +
+                '<input type="file" id="fileUpload" class="fileUpload">'+
+             
+                '<a href="javascript:void(0)"><i id="files" class= "fas fa-file-upload text-info" title="Upload CV" onclick="questionService.upload()" ></i></a>' +
                 '</td>' +
                 '<td>' +
                 '<a href="javascript:void(0)"><i class= "fa fa-list text-info" title="View Details" onclick="questionService.viewScores(' + value.ExamineeId + ')"></i></a>' +
                 '</td>' +
-                '<td><i class="fa fa-check-circle"></i></td>' +
+                '<td>' +
+                '<a  href="javascript:void(0)"><i id="shortlist" class= "' + (value.Shortlist == false ? 'fa fa-check-circle text-success' : 'fa fa-times-circle text-danger') + '" title = "' + (value.Shortlist == true ? 'Remove' : 'Shortlist') +'" onclick = "questionService.shortlist(this, ' + value.ExamineeId + ') " ></i ></a > ' +
+                '</td>' +
                 '</tr >');
         });
     },
@@ -617,9 +622,76 @@ var questionService = {
         window.location = questionService.getRootUrl() + '/Admin/Assessment?examId=' + examId + '&examineeId=' + examineeId;
     },
 
+    upload: function () {
+        var files = $('#fileUpload').prop("files");
+        console.log(files);
+        formData = new FormData();
+        formData.append("file", files[0]);
+
+        $.ajax({
+            type: 'POST',
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/cv",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (repo) {
+                if (repo.status == "success") {
+                    alert("File : " + repo.filename + " is uploaded successfully");
+                }
+            },
+            error: function () {
+                alert("Error occurs");
+            }
+        });
+    },
+
     viewScores: function (examineeId) {
         $("#scoreModal").modal();
         questionService.getExamineeScore(examineeId);             
+    },
+
+    shortlist: function (x, examineeId) {
+        
+      
+        var examinee = {
+            Id: examineeId,
+            Shortlist: !($(x).hasClass('fa-times-circle')),
+        }
+        $.ajax({
+            type: "POST",
+            url: questionService.getRootUrl() + "/api/v1.0/Exam/shortlist",
+            data: JSON.stringify(examinee),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    location.reload(true);
+                    $(x).toggleClass("fa-times-circle");
+                    $(x).toggleClass("text-danger");
+                   
+                    if ($(x).hasClass('fa-times-circle')) {
+                        $(x).parent().parent().parent().css("background-color", "#003300");
+                    }
+                    else {
+                        $(x).parent().parent().parent().css("background-color", "#505255");
+                    }
+                    questionService.getRootUrl() + '/Exam/examinee?examId=' + $('#exam-id').val();
+                } else {
+                    alert('Error while shortlisting examinee');
+                }
+            },
+            error: function (xhr, status, exception) {
+                console.log(xhr);
+                console.log("Error: " + exception + ", Status: " + status);
+            }
+
+        });
+            
     },
 
     getQuestionAnswerDetails: function () {
@@ -795,7 +867,7 @@ var questionService = {
             $('table#examiner-score-table').append('<tr>' +
                     '<td>' + (index + 1) + '</td>' +
                 '<td>' + value.Examiner + '</td>' +
-                '<td>' + '<input id="score-input-' + (index+1) + '" type="number" size="1"' + ($('#user-email').val() !== value.Examiner ? "disabled" : "") + ' value=' + value.Score + '>' + '</td>' +
+                '<td>' + '<input id="score-input-' + (index+1) + '" type="number"' + ($('#user-email').val() !== value.Examiner ? "disabled" : "") + ' value=' + value.Score + '>' + '</td>' +
                 '<td>' +
                 '<a href="javascript:void(0)"><i class= "fas fa-save text-info" title="Save"' + ($('#user-email').val() !== value.Examiner ? '' : 'onclick="questionService.save(' + (index + 1)+ ',' + value.ExaminerId + ', ' + value.Score + ',' + value.ExamineeId + ',' + value.ExamId + ',' + value.Id +')"') + '></i></a>' +
                 '</td>' +
@@ -812,10 +884,6 @@ var questionService = {
        
         var score = {
 
-            //ExamId: $('#exam-id').val(examId),
-            //ExamineeId: $('#examinee-id').val(examineeId),
-            //ExaminerId: $('#examiner-id').val(examinerId),
-            //Score: $('#score').val(scores),
             Id: id,
             ExamId: examId,
             ExamineeId: examineeId,

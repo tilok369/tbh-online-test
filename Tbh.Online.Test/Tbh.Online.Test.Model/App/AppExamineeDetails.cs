@@ -18,5 +18,6 @@ namespace Tbh.Online.Test.Model.App
         public double TotalMarks { get; set; }
         public double ObtainedMarks { get; set; }
         public byte[] CV { get; set; }
+        public bool? Shortlist { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Tbh.Online.Test.DAL.DataModels;
@@ -96,8 +97,10 @@ namespace Tbh.Online.Test.DAL.Repositories
                                   Email = examinee.Email,
                                   Status =stat.Status,
                                   TotalMarks = stat.TotalMarks,
-                                  ObtainedMarks = stat.ObtainedMarks
-                              }).OrderByDescending(t=>t.Status)
+                                  ObtainedMarks = stat.ObtainedMarks,
+                                  Shortlist = examinee.Shortlist
+                              }).OrderByDescending(t=>t.Shortlist)
+                              .ThenByDescending(t => t.Status)
                               .ThenByDescending(t=>t.ObtainedMarks).ToList();
 
                 foreach (var res in result)
@@ -169,5 +172,39 @@ namespace Tbh.Online.Test.DAL.Repositories
                 return false;
             }
         }
+        public Examinee GetExamineeById(int examineeId)
+        {
+            using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+            {
+                return context.Examinees.FirstOrDefault(e => e.Id == examineeId);
+            }
+        }
+        public bool Shortlist(Examinee shortlist)
+        {
+            try
+            {
+                using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+                {
+                   
+                    context.Entry(shortlist).State = EntityState.Modified;
+                    context.SaveChanges();
+                    
+                    return true; 
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+        }
+
+        //public Examinee UploadCv(int examineeId)
+        //{
+        //    using (var context = new OnlineTestContext(_dbContextOptionBuilder.Options))
+        //    {
+        //        String FileExt = Path.GetExtension().ToUpper();
+        //    }
+        //}
     }
 }

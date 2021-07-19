@@ -162,5 +162,15 @@ namespace Tbh.Online.Test.Service.Services
             var dbExamineeScore = _examRepository.SaveScore(score);
             return new CrudResult(dbExamineeScore, "success");
         }
+
+        public CrudResult Shortlist(AppExaminee shortlist)
+        {
+            var mapper = _config.CreateMapper();
+            var shortlisted = mapper.Map<AppExaminee, Examinee>(shortlist);
+            var examinee = _examRepository.GetExamineeById(shortlisted.Id);
+            examinee.Shortlist = shortlist.Shortlist;
+            var dbExaminee = _examRepository.Shortlist(examinee);
+            return new CrudResult(dbExaminee, "success");
+        }
     }
 }

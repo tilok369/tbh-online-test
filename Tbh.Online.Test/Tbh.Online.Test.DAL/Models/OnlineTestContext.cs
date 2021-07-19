@@ -129,7 +129,7 @@ namespace Tbh.Online.Test.DAL.Models
                     .HasMaxLength(50);
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
+                entity.Property(e => e.Cv).HasColumnName("CV");
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);

@@ -16,5 +16,7 @@ namespace Tbh.Online.Test.Model.App
         public string Phone { get; set; }
         public int? ExamId { get; set; }
         public byte[] CV { get; set; }
+        public bool? Shortlist { get; set; }
+
     }
 }

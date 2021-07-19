@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Tbh.Online.Test.Service\Tbh.Online.Test.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\examineeCV\" />
+  </ItemGroup>
+
 </Project>
